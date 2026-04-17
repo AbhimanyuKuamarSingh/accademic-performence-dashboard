@@ -23,10 +23,10 @@ function StudentDashboard() {
 
   // Performance overview chart data
   const performanceData = [
-    { subject: "Math", score: 88, average: 75 },
-    { subject: "Science", score: 92, average: 78 },
-    { subject: "History", score: 76, average: 70 },
-    { subject: "English", score: 95, average: 80 },
+    { subject: "Data Mining", score: 88, average: 75 },
+    { subject: "Neural Network", score: 92, average: 78 },
+    { subject: "Data Science", score: 76, average: 70 },
+    { subject: "Distributed System", score: 95, average: 80 },
   ];
 
   // Recent grades line chart data
