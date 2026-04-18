@@ -1,5 +1,5 @@
 /* ============================================
-   index.css - Global base styles
+   index.css - Global styles with Dark Mode
    ============================================ */
 
 * {
@@ -12,20 +12,49 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f0f2f5;
   overflow-x: hidden;
+  transition: background-color 0.3s ease;
 }
 
-/* Prevent horizontal scroll on mobile */
+body.dark {
+  background-color: #1a1a2e;
+  color: white;
+}
+
 html, body {
   max-width: 100%;
   overflow-x: hidden;
 }
 
-/* Scrollable tables on mobile */
-table {
-  min-width: 400px;
+/* Fade in up animation for stat cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Responsive font sizes */
+/* Fade in animation for dashboard sections */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Slide in from left for sidebar */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @media (max-width: 768px) {
   body {
     font-size: 14px;

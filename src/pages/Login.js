@@ -1,6 +1,7 @@
 // src/pages/Login.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../context/ToastContext";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -10,47 +11,44 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleLogin = () => {
     setError("");
 
-    // Check empty fields
     if (!username || !password) {
       setError("Please fill in all fields.");
+      showToast("Please fill in all fields", "error");
       return;
     }
 
-    // Check password length
     if (password.length < 4) {
       setError("Password must be at least 4 characters.");
+      showToast("Password must be at least 4 characters", "warning");
       return;
     }
 
-    // Show loading
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
-
-      // Save to localStorage
       localStorage.setItem("role", role);
       localStorage.setItem("user", username);
 
-      // Go to correct dashboard
-      if (role === "student") navigate("/student");
-      else if (role === "faculty") navigate("/faculty");
-      else if (role === "admin") navigate("/admin");
+      showToast(`Welcome ${username}! Login successful 🎉`, "success");
+
+      setTimeout(() => {
+        if (role === "student") navigate("/student");
+        else if (role === "faculty") navigate("/faculty");
+        else if (role === "admin") navigate("/admin");
+      }, 800);
     }, 1000);
   };
 
-  // Login on Enter key press
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleLogin();
-    }
+    if (e.key === "Enter") handleLogin();
   };
 
-  // ---- Styles ----
   const pageStyle = {
     display: "flex",
     justifyContent: "center",
@@ -137,15 +135,11 @@ function Login() {
   return (
     <div style={pageStyle}>
       <div style={cardStyle}>
-
-        {/* Title */}
         <h2 style={titleStyle}>📚 Academic Performance</h2>
         <p style={subtitleStyle}>Sign in to access your dashboard</p>
 
-        {/* Error Message */}
         {error && <div style={errorStyle}>⚠️ {error}</div>}
 
-        {/* Select Role */}
         <label style={labelStyle}>Select Role</label>
         <select
           style={inputStyle}
@@ -157,7 +151,6 @@ function Login() {
           <option value="admin">⚙️ Admin</option>
         </select>
 
-        {/* Username */}
         <label style={labelStyle}>Username</label>
         <input
           style={inputStyle}
@@ -168,7 +161,6 @@ function Login() {
           onKeyPress={handleKeyPress}
         />
 
-        {/* Password */}
         <label style={labelStyle}>Password</label>
         <input
           style={inputStyle}
@@ -179,7 +171,6 @@ function Login() {
           onKeyPress={handleKeyPress}
         />
 
-        {/* Login Button */}
         <button
           style={buttonStyle}
           onClick={handleLogin}
@@ -188,14 +179,12 @@ function Login() {
           {loading ? "⏳ Signing in..." : "Login →"}
         </button>
 
-        {/* Hint Box */}
         <div style={hintBoxStyle}>
           <strong>💡 How to login:</strong><br />
           Enter any username and any password<br />
           (password must be at least 4 characters)<br />
           Select your role and click Login
         </div>
-
       </div>
     </div>
   );

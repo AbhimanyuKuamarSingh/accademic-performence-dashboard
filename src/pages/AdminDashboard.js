@@ -3,6 +3,10 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import PrintReport from "../components/PrintReport";
+import AnimatedStatCard from "../components/AnimatedStatCard";
+import WelcomeBanner from "../components/WelcomeBanner";
+import ProgressCard from "../components/ProgressCard";
+import { useTheme } from "../context/ThemeContext";
 import {
   PieChart, Pie, Cell, Legend,
   Tooltip, ResponsiveContainer,
@@ -11,6 +15,15 @@ import {
 } from "recharts";
 
 function AdminDashboard() {
+  const { isDark } = useTheme();
+
+  const bgColor = isDark ? "#1a1a2e" : "#f0f2f5";
+  const cardBg = isDark ? "#16213e" : "white";
+  const textColor = isDark ? "#ffffff" : "#1a1a2e";
+  const subTextColor = isDark ? "#a0aec0" : "#555";
+  const borderColor = isDark ? "#2d3748" : "#eee";
+  const rowEven = isDark ? "#1a1a2e" : "white";
+  const rowOdd = isDark ? "#16213e" : "#fafafa";
 
   const pieData = [
     { name: "Students", value: 59 },
@@ -36,11 +49,19 @@ function AdminDashboard() {
     { id: 405, activity: "Password Reset", timestamp: "06:45 AM" },
   ];
 
-  // ---- Styles ----
+  // Progress bar data for admin
+  const systemProgressData = [
+    { label: "System Uptime", value: 99, maxValue: 100 },
+    { label: "Storage Used", value: 67, maxValue: 100 },
+    { label: "Active Users", value: 82, maxValue: 100 },
+    { label: "Reports Generated", value: 45, maxValue: 100 },
+    { label: "Issues Resolved", value: 91, maxValue: 100 },
+  ];
+
   const pageStyle = {
     display: "flex",
     minHeight: "100vh",
-    backgroundColor: "#f0f2f5",
+    backgroundColor: bgColor,
   };
 
   const mainContentStyle = {
@@ -53,6 +74,8 @@ function AdminDashboard() {
   const bodyStyle = {
     padding: "20px",
     flex: 1,
+    backgroundColor: bgColor,
+    animation: "fadeIn 0.5s ease forwards",
   };
 
   const headingRowStyle = {
@@ -71,42 +94,30 @@ function AdminDashboard() {
     flexWrap: "wrap",
   };
 
-  const statCardStyle = (color) => ({
-    flex: "1 1 140px",
-    backgroundColor: color,
-    borderRadius: "10px",
-    padding: "16px",
-    color: "white",
-  });
-
-  const statLabelStyle = {
-    fontSize: "12px",
-    opacity: 0.9,
-    margin: "0 0 6px 0",
-  };
-
-  const statValueStyle = {
-    fontSize: "32px",
-    fontWeight: "bold",
-    margin: 0,
-  };
-
   const chartCardStyle = {
-    backgroundColor: "white",
+    backgroundColor: cardBg,
     borderRadius: "10px",
     padding: "16px",
     marginBottom: "16px",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+    boxShadow: isDark
+      ? "0 2px 6px rgba(0,0,0,0.4)"
+      : "0 2px 6px rgba(0,0,0,0.06)",
+    animation: "fadeInUp 0.6s ease forwards",
   };
 
   const chartTitleStyle = {
     fontSize: "15px",
     fontWeight: "bold",
-    color: "#1a1a2e",
+    color: textColor,
     marginBottom: "14px",
   };
 
-  // Side by side on desktop stacked on mobile
+  const twoColStyle = {
+    display: "flex",
+    gap: "16px",
+    flexWrap: "wrap",
+  };
+
   const chartsRowStyle = {
     display: "flex",
     gap: "16px",
@@ -123,17 +134,17 @@ function AdminDashboard() {
   const thStyle = {
     textAlign: "left",
     padding: "10px 12px",
-    backgroundColor: "#f8f9fa",
-    color: "#555",
+    backgroundColor: isDark ? "#0f3460" : "#f8f9fa",
+    color: subTextColor,
     fontWeight: "600",
-    borderBottom: "2px solid #eee",
+    borderBottom: `2px solid ${borderColor}`,
     whiteSpace: "nowrap",
   };
 
   const tdStyle = {
     padding: "10px 12px",
-    borderBottom: "1px solid #f0f0f0",
-    color: "#333",
+    borderBottom: `1px solid ${borderColor}`,
+    color: textColor,
     whiteSpace: "nowrap",
   };
 
@@ -146,83 +157,139 @@ function AdminDashboard() {
 
           {/* Heading */}
           <div style={headingRowStyle}>
-            <h2 style={{ fontSize: "22px", fontWeight: "bold", color: "#1a1a2e", margin: 0 }}>
+            <h2 style={{
+              fontSize: "22px",
+              fontWeight: "bold",
+              color: textColor,
+              margin: 0,
+            }}>
               Admin Dashboard
             </h2>
             <PrintReport />
           </div>
 
-          {/* Stat Cards */}
+          {/* Welcome Banner */}
+          <WelcomeBanner />
+
+          {/* Animated Stat Cards */}
           <div style={statsRowStyle}>
-            <div style={statCardStyle("#1abc9c")}>
-              <p style={statLabelStyle}>Total Users</p>
-              <p style={statValueStyle}>350</p>
-            </div>
-            <div style={statCardStyle("#3498db")}>
-              <p style={statLabelStyle}>Active Reports</p>
-              <p style={statValueStyle}>8</p>
-            </div>
-            <div style={statCardStyle("#2c3e50")}>
-              <p style={statLabelStyle}>System Alerts</p>
-              <p style={statValueStyle}>2</p>
-            </div>
+            <AnimatedStatCard
+              title="Total Users"
+              value={350}
+              color="#1abc9c"
+              icon="👤"
+            />
+            <AnimatedStatCard
+              title="Active Reports"
+              value={8}
+              color="#3498db"
+              icon="📋"
+            />
+            <AnimatedStatCard
+              title="System Alerts"
+              value={2}
+              color="#e74c3c"
+              icon="🔔"
+            />
           </div>
 
-          {/* Pie and Line Charts side by side */}
-          <p style={{ ...chartTitleStyle, marginBottom: "10px" }}>
-            User Statistics
-          </p>
-          <div style={chartsRowStyle}>
+          {/* Pie Line Charts and Progress Bars */}
+          <div style={twoColStyle}>
 
-            {/* Pie Chart */}
-            <div style={{
-              ...chartCardStyle,
-              flex: "1 1 280px",
-              marginBottom: 0,
-            }}>
-              <p style={chartTitleStyle}>User Roles</p>
-              <ResponsiveContainer width="100%" height={220}>
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={55}
-                    outerRadius={85}
-                    dataKey="value"
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={PIE_COLORS[index % PIE_COLORS.length]}
+            {/* Pie and Line Charts */}
+            <div style={{ flex: "2 1 300px" }}>
+              <p style={{
+                fontSize: "15px",
+                fontWeight: "bold",
+                color: textColor,
+                marginBottom: "10px",
+              }}>
+                User Statistics
+              </p>
+              <div style={chartsRowStyle}>
+
+                {/* Pie Chart */}
+                <div style={{
+                  ...chartCardStyle,
+                  flex: "1 1 200px",
+                  marginBottom: 0,
+                }}>
+                  <p style={chartTitleStyle}>User Roles</p>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={50}
+                        outerRadius={75}
+                        dataKey="value"
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={PIE_COLORS[index % PIE_COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        formatter={(value) => `${value}%`}
+                        contentStyle={{
+                          backgroundColor: cardBg,
+                          border: `1px solid ${borderColor}`,
+                          color: textColor,
+                        }}
                       />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => `${value}%`} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Line Chart */}
+                <div style={{
+                  ...chartCardStyle,
+                  flex: "2 1 200px",
+                  marginBottom: 0,
+                }}>
+                  <p style={chartTitleStyle}>Growth Over Months</p>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <LineChart data={lineData}>
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke={isDark ? "#2d3748" : "#eee"}
+                        vertical={false}
+                      />
+                      <XAxis
+                        dataKey="month"
+                        tick={{ fontSize: 11, fill: subTextColor }}
+                      />
+                      <YAxis
+                        tick={{ fontSize: 11, fill: subTextColor }}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: cardBg,
+                          border: `1px solid ${borderColor}`,
+                          color: textColor,
+                        }}
+                      />
+                      <Legend />
+                      <Line type="monotone" dataKey="students" stroke="#1abc9c" strokeWidth={2} dot={{ r: 3 }} name="Students" />
+                      <Line type="monotone" dataKey="faculty" stroke="#e67e22" strokeWidth={2} dot={{ r: 3 }} name="Faculty" />
+                      <Line type="monotone" dataKey="admins" stroke="#e74c3c" strokeWidth={2} dot={{ r: 3 }} name="Admins" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+
+              </div>
             </div>
 
-            {/* Line Chart */}
-            <div style={{
-              ...chartCardStyle,
-              flex: "2 1 280px",
-              marginBottom: 0,
-            }}>
-              <p style={chartTitleStyle}>Growth Over Months</p>
-              <ResponsiveContainer width="100%" height={220}>
-                <LineChart data={lineData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-                  <YAxis tick={{ fontSize: 11 }} />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="students" stroke="#1abc9c" strokeWidth={2} dot={{ r: 4 }} name="Students" />
-                  <Line type="monotone" dataKey="faculty" stroke="#e67e22" strokeWidth={2} dot={{ r: 4 }} name="Faculty" />
-                  <Line type="monotone" dataKey="admins" stroke="#e74c3c" strokeWidth={2} dot={{ r: 4 }} name="Admins" />
-                </LineChart>
-              </ResponsiveContainer>
+            {/* System Progress Bars */}
+            <div style={{ flex: "1 1 260px" }}>
+              <ProgressCard
+                title="⚙️ System Statistics"
+                data={systemProgressData}
+              />
             </div>
 
           </div>
@@ -242,7 +309,8 @@ function AdminDashboard() {
                 <tbody>
                   {recentLogs.map((row, index) => (
                     <tr key={index} style={{
-                      backgroundColor: index % 2 === 0 ? "white" : "#fafafa",
+                      backgroundColor:
+                        index % 2 === 0 ? rowEven : rowOdd,
                     }}>
                       <td style={tdStyle}>{row.id}</td>
                       <td style={tdStyle}>{row.activity}</td>

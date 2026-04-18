@@ -1,16 +1,14 @@
 // src/components/Navbar.js
-// This component shows the top navigation bar
-// It changes color based on the user role
-
 import React from "react";
+import { useTheme } from "../context/ThemeContext";
+import { useToast } from "../context/ToastContext";
 
 function Navbar() {
-  // Get role and username from localStorage
   const role = localStorage.getItem("role") || "Guest";
   const user = localStorage.getItem("user") || "User";
+  const { isDark, toggleDark } = useTheme();
+  const { showToast } = useToast();
 
-  // Navbar color changes based on role
-  // Student = Blue, Faculty = Red, Admin = Teal
   const navStyle = {
     backgroundColor:
       role === "student" ? "#3a86ff" :
@@ -35,7 +33,7 @@ function Navbar() {
   const rightStyle = {
     display: "flex",
     alignItems: "center",
-    gap: "10px",
+    gap: "12px",
     fontSize: "13px",
   };
 
@@ -50,15 +48,39 @@ function Navbar() {
     fontSize: "16px",
   };
 
+  const toggleStyle = {
+    backgroundColor: "rgba(255,255,255,0.2)",
+    border: "1px solid rgba(255,255,255,0.4)",
+    color: "white",
+    padding: "6px 12px",
+    borderRadius: "20px",
+    cursor: "pointer",
+    fontSize: "13px",
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+  };
+
   return (
     <div style={navStyle}>
-      {/* App title */}
       <h1 style={titleStyle}>
         📚 Academic Performance System
       </h1>
-
-      {/* Right side - user info */}
       <div style={rightStyle}>
+        <button
+          style={toggleStyle}
+          onClick={() => {
+            toggleDark();
+            showToast(
+              isDark
+                ? "Light mode activated ☀️"
+                : "Dark mode activated 🌙",
+              "info"
+            );
+          }}
+        >
+          {isDark ? "☀️ Light" : "🌙 Dark"}
+        </button>
         <span style={{ fontSize: "12px" }}>👤 {user}</span>
         <div style={avatarStyle}>
           {role === "student" ? "🎓" :
