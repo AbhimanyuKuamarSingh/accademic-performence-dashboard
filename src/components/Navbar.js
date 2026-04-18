@@ -1,11 +1,16 @@
 // src/components/Navbar.js
-import React, { useState } from "react";
+// This component shows the top navigation bar
+// It changes color based on the user role
+
+import React from "react";
 
 function Navbar() {
+  // Get role and username from localStorage
   const role = localStorage.getItem("role") || "Guest";
   const user = localStorage.getItem("user") || "User";
-  const [menuOpen, setMenuOpen] = useState(false);
 
+  // Navbar color changes based on role
+  // Student = Blue, Faculty = Red, Admin = Teal
   const navStyle = {
     backgroundColor:
       role === "student" ? "#3a86ff" :
@@ -43,14 +48,16 @@ function Navbar() {
     alignItems: "center",
     justifyContent: "center",
     fontSize: "16px",
-    cursor: "pointer",
   };
 
   return (
     <div style={navStyle}>
+      {/* App title */}
       <h1 style={titleStyle}>
         📚 Academic Performance System
       </h1>
+
+      {/* Right side - user info */}
       <div style={rightStyle}>
         <span style={{ fontSize: "12px" }}>👤 {user}</span>
         <div style={avatarStyle}>

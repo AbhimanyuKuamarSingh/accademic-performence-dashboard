@@ -1,4 +1,7 @@
 // src/pages/StudentDashboard.js
+// This page shows the student dashboard
+// It includes stat cards, charts and results table
+
 import React from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -12,6 +15,7 @@ import {
 
 function StudentDashboard() {
 
+  // Recent grades table data
   const recentGrades = [
     { id: 101, course: "Math", marks: 88, grade: "B+" },
     { id: 102, course: "Science", marks: 92, grade: "A" },
@@ -20,6 +24,7 @@ function StudentDashboard() {
     { id: 105, course: "Computer Science", marks: 89, grade: "B+" },
   ];
 
+  // Bar chart data - subject wise performance
   const performanceData = [
     { subject: "Math", score: 88, average: 75 },
     { subject: "Science", score: 92, average: 78 },
@@ -27,6 +32,7 @@ function StudentDashboard() {
     { subject: "English", score: 95, average: 80 },
   ];
 
+  // Line chart data - performance trend over months
   const gradesLineData = [
     { month: "Jan", score: 65 },
     { month: "Feb", score: 70 },
@@ -34,6 +40,8 @@ function StudentDashboard() {
     { month: "Apr", score: 75 },
     { month: "May", score: 82 },
   ];
+
+  // ---- Styles ----
 
   const pageStyle = {
     display: "flex",
@@ -45,7 +53,7 @@ function StudentDashboard() {
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    minWidth: 0, // prevents overflow
+    minWidth: 0,
   };
 
   const bodyStyle = {
@@ -62,15 +70,17 @@ function StudentDashboard() {
     gap: "10px",
   };
 
+  // Stat cards row - wraps on mobile
   const statsRowStyle = {
     display: "flex",
     gap: "12px",
     marginBottom: "20px",
-    flexWrap: "wrap", // wraps on small screens
+    flexWrap: "wrap",
   };
 
+  // Each stat card grows and shrinks responsively
   const statCardStyle = (color) => ({
-    flex: "1 1 140px", // grows and shrinks, min 140px
+    flex: "1 1 140px",
     backgroundColor: color,
     borderRadius: "10px",
     padding: "16px",
@@ -89,6 +99,7 @@ function StudentDashboard() {
     margin: 0,
   };
 
+  // White card used for charts and tables
   const chartCardStyle = {
     backgroundColor: "white",
     borderRadius: "10px",
@@ -102,13 +113,6 @@ function StudentDashboard() {
     fontWeight: "bold",
     color: "#1a1a2e",
     marginBottom: "14px",
-  };
-
-  const chartsRowStyle = {
-    display: "flex",
-    gap: "16px",
-    marginBottom: "16px",
-    flexWrap: "wrap", // stacks on mobile
   };
 
   const tableStyle = {
@@ -134,6 +138,7 @@ function StudentDashboard() {
     whiteSpace: "nowrap",
   };
 
+  // Returns a colored badge for each grade
   const getGradeBadge = (grade) => {
     const colors = {
       "A+": "#27ae60",
@@ -163,45 +168,50 @@ function StudentDashboard() {
       <Sidebar />
       <div style={mainContentStyle}>
         <Navbar />
-        <div style={bodyStyle} className="body-padding">
+        <div style={bodyStyle}>
 
-          {/* Heading */}
+          {/* Heading and Print Button */}
           <div style={headingRowStyle}>
-            <h2 style={{ fontSize: "22px", fontWeight: "bold", color: "#1a1a2e", margin: 0 }}>
+            <h2 style={{
+              fontSize: "22px",
+              fontWeight: "bold",
+              color: "#1a1a2e",
+              margin: 0,
+            }}>
               Student Dashboard
             </h2>
             <PrintReport />
           </div>
 
-          {/* Stat Cards */}
-          <div style={statsRowStyle} className="stats-row">
-            <div style={statCardStyle("#3a86ff")} className="stat-card">
+          {/* Stat Cards - using dummyData */}
+          <div style={statsRowStyle}>
+            <div style={statCardStyle("#3a86ff")}>
               <p style={statLabelStyle}>Average Score</p>
-              <p style={statValueStyle} className="stat-value">
+              <p style={statValueStyle}>
                 {dummyData.stats.averageScore}%
               </p>
             </div>
-            <div style={statCardStyle("#2ecc71")} className="stat-card">
+            <div style={statCardStyle("#2ecc71")}>
               <p style={statLabelStyle}>Total Subjects</p>
-              <p style={statValueStyle} className="stat-value">
+              <p style={statValueStyle}>
                 {dummyData.studentResults.length}
               </p>
             </div>
-            <div style={statCardStyle("#ff6b35")} className="stat-card">
+            <div style={statCardStyle("#ff6b35")}>
               <p style={statLabelStyle}>Top Score</p>
-              <p style={statValueStyle} className="stat-value">
+              <p style={statValueStyle}>
                 {dummyData.stats.topScore}
               </p>
             </div>
-            <div style={statCardStyle("#9b59b6")} className="stat-card">
+            <div style={statCardStyle("#9b59b6")}>
               <p style={statLabelStyle}>Pass %</p>
-              <p style={statValueStyle} className="stat-value">
+              <p style={statValueStyle}>
                 {dummyData.stats.passPercentage}%
               </p>
             </div>
           </div>
 
-          {/* Bar Chart */}
+          {/* Performance Overview Bar Chart */}
           <div style={chartCardStyle}>
             <p style={chartTitleStyle}>Performance Overview</p>
             <ResponsiveContainer width="100%" height={220}>
@@ -211,13 +221,23 @@ function StudentDashboard() {
                 <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="score" fill="#3a86ff" radius={[4, 4, 0, 0]} name="Your Score" />
-                <Bar dataKey="average" fill="#a8d8ea" radius={[4, 4, 0, 0]} name="Class Average" />
+                <Bar
+                  dataKey="score"
+                  fill="#3a86ff"
+                  radius={[4, 4, 0, 0]}
+                  name="Your Score"
+                />
+                <Bar
+                  dataKey="average"
+                  fill="#a8d8ea"
+                  radius={[4, 4, 0, 0]}
+                  name="Class Average"
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          {/* Line Chart */}
+          {/* Performance Trend Line Chart */}
           <div style={chartCardStyle}>
             <p style={chartTitleStyle}>Performance Trend</p>
             <ResponsiveContainer width="100%" height={200}>
@@ -226,6 +246,7 @@ function StudentDashboard() {
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} />
                 <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
                 <Tooltip />
+                <Legend />
                 <Line
                   type="monotone"
                   dataKey="score"
@@ -238,10 +259,9 @@ function StudentDashboard() {
             </ResponsiveContainer>
           </div>
 
-          {/* Subject Results Table */}
+          {/* Subject wise Results Table using dummyData */}
           <div style={chartCardStyle}>
             <p style={chartTitleStyle}>Subject wise Results</p>
-            {/* div makes table scroll on mobile */}
             <div style={{ overflowX: "auto" }}>
               <table style={tableStyle}>
                 <thead>
@@ -256,10 +276,16 @@ function StudentDashboard() {
                 </thead>
                 <tbody>
                   {dummyData.studentResults.map((row, index) => (
-                    <tr key={index} style={{
-                      backgroundColor: index % 2 === 0 ? "white" : "#fafafa",
-                    }}>
-                      <td style={{ ...tdStyle, color: "#7f8c8d" }}>{index + 1}</td>
+                    <tr
+                      key={index}
+                      style={{
+                        backgroundColor:
+                          index % 2 === 0 ? "white" : "#fafafa",
+                      }}
+                    >
+                      <td style={{ ...tdStyle, color: "#7f8c8d" }}>
+                        {index + 1}
+                      </td>
                       <td style={tdStyle}>{row.subject}</td>
                       <td style={{
                         ...tdStyle,
@@ -269,10 +295,13 @@ function StudentDashboard() {
                         {row.marks}
                       </td>
                       <td style={tdStyle}>{row.maxMarks}</td>
-                      <td style={tdStyle}>{getGradeBadge(row.grade)}</td>
+                      <td style={tdStyle}>
+                        {getGradeBadge(row.grade)}
+                      </td>
                       <td style={tdStyle}>
                         <span style={{
-                          backgroundColor: row.marks < 40 ? "#e74c3c" : "#27ae60",
+                          backgroundColor:
+                            row.marks < 40 ? "#e74c3c" : "#27ae60",
                           color: "white",
                           padding: "3px 10px",
                           borderRadius: "12px",
@@ -304,13 +333,19 @@ function StudentDashboard() {
                 </thead>
                 <tbody>
                   {recentGrades.map((row, index) => (
-                    <tr key={index} style={{
-                      backgroundColor: index % 2 === 0 ? "white" : "#fafafa",
-                    }}>
+                    <tr
+                      key={index}
+                      style={{
+                        backgroundColor:
+                          index % 2 === 0 ? "white" : "#fafafa",
+                      }}
+                    >
                       <td style={tdStyle}>{row.id}</td>
                       <td style={tdStyle}>{row.course}</td>
                       <td style={tdStyle}>{row.marks}</td>
-                      <td style={tdStyle}>{getGradeBadge(row.grade)}</td>
+                      <td style={tdStyle}>
+                        {getGradeBadge(row.grade)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
