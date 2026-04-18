@@ -16,11 +16,11 @@ const dummyData = {
   // Used in the results table
   // Each object has subject, marks, maxMarks, grade
   studentResults: [
-    { subject: "Mathematics", marks: 85, maxMarks: 100, grade: "A" },
-    { subject: "Physics", marks: 72, maxMarks: 100, grade: "B" },
-    { subject: "Chemistry", marks: 68, maxMarks: 100, grade: "B" },
-    { subject: "English", marks: 90, maxMarks: 100, grade: "A+" },
-    { subject: "Computer Science", marks: 95, maxMarks: 100, grade: "A+" },
+    { subject: "Data Mining", marks: 85, maxMarks: 100, grade: "A" },
+    { subject: "Neural Network", marks: 72, maxMarks: 100, grade: "B" },
+    { subject: "Machine Learning", marks: 68, maxMarks: 100, grade: "B" },
+    { subject: "Data Science", marks: 90, maxMarks: 100, grade: "A+" },
+    { subject: "DIstributed system", marks: 95, maxMarks: 100, grade: "A+" },
   ],
 
   // Used in the Bar Chart

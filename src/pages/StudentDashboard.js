@@ -17,19 +17,19 @@ function StudentDashboard() {
 
   // Recent grades table data
   const recentGrades = [
-    { id: 101, course: "Math", marks: 88, grade: "B+" },
-    { id: 102, course: "Science", marks: 92, grade: "A" },
-    { id: 103, course: "History", marks: 76, grade: "C" },
-    { id: 104, course: "English", marks: 95, grade: "A+" },
-    { id: 105, course: "Computer Science", marks: 89, grade: "B+" },
+    { id: 101, course: "Data Mining", marks: 88, grade: "B+" },
+    { id: 102, course: "Neural Network", marks: 92, grade: "A" },
+    { id: 103, course: "Machine Learning", marks: 76, grade: "C" },
+    { id: 104, course: "Data Science", marks: 95, grade: "A+" },
+    { id: 105, course: "Distributed System", marks: 89, grade: "B+" },
   ];
 
   // Bar chart data - subject wise performance
   const performanceData = [
-    { subject: "Math", score: 88, average: 75 },
-    { subject: "Science", score: 92, average: 78 },
-    { subject: "History", score: 76, average: 70 },
-    { subject: "English", score: 95, average: 80 },
+    { subject: "Data Mining", score: 88, average: 75 },
+    { subject: "Neural Network", score: 92, average: 78 },
+    { subject: "Machine Learning", score: 76, average: 70 },
+    { subject: "Data Science", score: 95, average: 80 },
   ];
 
   // Line chart data - performance trend over months

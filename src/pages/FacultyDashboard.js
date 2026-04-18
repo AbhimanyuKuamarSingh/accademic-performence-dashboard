@@ -24,11 +24,11 @@ function FacultyDashboard() {
   ];
 
   const recentSubmissions = [
-    { id: 201, name: "John Doe", assignment: "Essay 1", status: "Graded" },
-    { id: 202, name: "Jane Smith", assignment: "Quiz 3", status: "Pending" },
-    { id: 203, name: "Mike Johnson", assignment: "Lab Report", status: "Submitted" },
-    { id: 204, name: "Sara Wilson", assignment: "Essay 2", status: "Graded" },
-    { id: 205, name: "Tom Brown", assignment: "Quiz 4", status: "Pending" },
+    { id: 201, name: "Abhimanyu Kumar Singh", assignment: "Essay 1", status: "Graded" },
+    { id: 202, name: "Abhishek Kumar", assignment: "Quiz 3", status: "Pending" },
+    { id: 203, name: "Soojal Mandal", assignment: "Lab Report", status: "Submitted" },
+    { id: 204, name: "Ritik Mehta", assignment: "Essay 2", status: "Graded" },
+    { id: 205, name: "Mukesh Tiwari", assignment: "Quiz 4", status: "Pending" },
   ];
 
   // ---- Styles ----
