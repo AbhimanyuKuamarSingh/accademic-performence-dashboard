@@ -1,31 +1,22 @@
 // src/components/Sidebar.js
-// This component shows the sidebar navigation menu
-// It shows different menu items based on the user's role
-// It also handles logout
-
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
   const navigate = useNavigate();
-
-  // Get role and username from localStorage
   const role = localStorage.getItem("role");
   const user = localStorage.getItem("user");
 
-  // ---- Logout Function ----
+  // Controls mobile sidebar open/close
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleLogout = () => {
-    // Remove everything from localStorage
     localStorage.removeItem("role");
     localStorage.removeItem("user");
     localStorage.removeItem("rememberMe");
-
-    // Go back to login page
     navigate("/");
   };
 
-  // ---- Menu Items based on Role ----
-  // Each role gets different menu items
   const getMenuItems = () => {
     if (role === "student") {
       return [
@@ -55,12 +46,49 @@ function Sidebar() {
 
   // ---- Styles ----
 
+  // Hamburger button shown only on mobile
+  const hamburgerStyle = {
+    display: "block",
+    position: "fixed",
+    top: "12px",
+    left: "12px",
+    zIndex: 1000,
+    backgroundColor: "#2c3e50",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    padding: "8px 12px",
+    fontSize: "18px",
+    cursor: "pointer",
+  };
+
+  // Overlay shown behind sidebar on mobile
+  const overlayStyle = {
+    display: isOpen ? "block" : "none",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    zIndex: 998,
+  };
+
   const sidebarStyle = {
     width: "220px",
     backgroundColor: "#2c3e50",
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
+    // On mobile sidebar slides in and out
+    position: window.innerWidth <= 768 ? "fixed" : "relative",
+    left: window.innerWidth <= 768
+      ? isOpen ? "0" : "-220px"
+      : "0",
+    top: 0,
+    zIndex: 999,
+    transition: "left 0.3s ease",
+    flexShrink: 0,
   };
 
   const logoStyle = {
@@ -118,7 +146,7 @@ function Sidebar() {
 
   const menuItemStyle = {
     color: "#bdc3c7",
-    padding: "11px 16px",
+    padding: "12px 16px",
     cursor: "pointer",
     fontSize: "13px",
     borderLeft: "3px solid transparent",
@@ -133,64 +161,86 @@ function Sidebar() {
     backgroundColor: "#1a252f",
   };
 
+  const isMobile = window.innerWidth <= 768;
+
   return (
-    <div style={sidebarStyle}>
+    <>
+      {/* Hamburger button - only on mobile */}
+      {isMobile && (
+        <button
+          style={hamburgerStyle}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? "✕" : "☰"}
+        </button>
+      )}
 
-      {/* Logo Section */}
-      <div style={logoStyle}>
-        <p style={logoTextStyle}>📚 APS</p>
-        <p style={logoSubStyle}>Academic Performance System</p>
-      </div>
-
-      {/* User Info Section */}
-      <div style={userBoxStyle}>
-        <p style={userNameStyle}>👤 {user || "User"}</p>
-        <p style={userRoleStyle}>● {role || "Guest"}</p>
-      </div>
-
-      {/* Menu Items */}
-      <div style={menuSectionStyle}>
-        <p style={menuLabelStyle}>Navigation</p>
-
-        {getMenuItems().map((item, index) => (
-          <div
-            key={index}
-            style={menuItemStyle}
-            onClick={() => navigate(item.path)}
-            // Hover effect using onMouseEnter and onMouseLeave
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = "white";
-              e.currentTarget.style.backgroundColor = "#34495e";
-              e.currentTarget.style.borderLeft = "3px solid #3498db";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = "#bdc3c7";
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.borderLeft = "3px solid transparent";
-            }}
-          >
-            {item.label}
-          </div>
-        ))}
-      </div>
-
-      {/* Logout Button */}
+      {/* Dark overlay behind sidebar on mobile */}
       <div
-        style={logoutStyle}
-        onClick={handleLogout}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = "#e74c3c";
-          e.currentTarget.style.color = "white";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = "#1a252f";
-          e.currentTarget.style.color = "#e74c3c";
-        }}
-      >
-        🚪 Logout
-      </div>
+        style={overlayStyle}
+        onClick={() => setIsOpen(false)}
+      />
 
-    </div>
+      {/* Sidebar */}
+      <div style={sidebarStyle}>
+
+        {/* Logo */}
+        <div style={logoStyle}>
+          <p style={logoTextStyle}>📚 APS</p>
+          <p style={logoSubStyle}>Academic Performance System</p>
+        </div>
+
+        {/* User Info */}
+        <div style={userBoxStyle}>
+          <p style={userNameStyle}>👤 {user || "User"}</p>
+          <p style={userRoleStyle}>● {role || "Guest"}</p>
+        </div>
+
+        {/* Menu Items */}
+        <div style={menuSectionStyle}>
+          <p style={menuLabelStyle}>Navigation</p>
+          {getMenuItems().map((item, index) => (
+            <div
+              key={index}
+              style={menuItemStyle}
+              onClick={() => {
+                navigate(item.path);
+                setIsOpen(false); // close sidebar on mobile after click
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "white";
+                e.currentTarget.style.backgroundColor = "#34495e";
+                e.currentTarget.style.borderLeft = "3px solid #3498db";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "#bdc3c7";
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.borderLeft = "3px solid transparent";
+              }}
+            >
+              {item.label}
+            </div>
+          ))}
+        </div>
+
+        {/* Logout */}
+        <div
+          style={logoutStyle}
+          onClick={handleLogout}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#e74c3c";
+            e.currentTarget.style.color = "white";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "#1a252f";
+            e.currentTarget.style.color = "#e74c3c";
+          }}
+        >
+          🚪 Logout
+        </div>
+
+      </div>
+    </>
   );
 }
 

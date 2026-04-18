@@ -12,7 +12,6 @@ import {
 
 function AdminDashboard() {
 
-  // Pie chart data - user roles
   const pieData = [
     { name: "Students", value: 59 },
     { name: "Faculty", value: 30 },
@@ -21,7 +20,6 @@ function AdminDashboard() {
 
   const PIE_COLORS = ["#1abc9c", "#e67e22", "#e74c3c"];
 
-  // Line chart data - user statistics
   const lineData = [
     { month: "Jan", students: 100, faculty: 20, admins: 5 },
     { month: "Feb", students: 120, faculty: 22, admins: 5 },
@@ -30,7 +28,6 @@ function AdminDashboard() {
     { month: "May", students: 140, faculty: 30, admins: 8 },
   ];
 
-  // Recent logs table
   const recentLogs = [
     { id: 401, activity: "User Login", timestamp: "09:15 AM" },
     { id: 402, activity: "Report Generated", timestamp: "08:15 AM" },
@@ -50,6 +47,7 @@ function AdminDashboard() {
     flex: 1,
     display: "flex",
     flexDirection: "column",
+    minWidth: 0,
   };
 
   const bodyStyle = {
@@ -62,37 +60,33 @@ function AdminDashboard() {
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: "20px",
-  };
-
-  const headingStyle = {
-    fontSize: "24px",
-    fontWeight: "bold",
-    color: "#1a1a2e",
-    margin: 0,
+    flexWrap: "wrap",
+    gap: "10px",
   };
 
   const statsRowStyle = {
     display: "flex",
-    gap: "16px",
+    gap: "12px",
     marginBottom: "20px",
+    flexWrap: "wrap",
   };
 
   const statCardStyle = (color) => ({
-    flex: 1,
+    flex: "1 1 140px",
     backgroundColor: color,
     borderRadius: "10px",
-    padding: "16px 20px",
+    padding: "16px",
     color: "white",
   });
 
   const statLabelStyle = {
-    fontSize: "13px",
+    fontSize: "12px",
     opacity: 0.9,
     margin: "0 0 6px 0",
   };
 
   const statValueStyle = {
-    fontSize: "36px",
+    fontSize: "32px",
     fontWeight: "bold",
     margin: 0,
   };
@@ -100,7 +94,7 @@ function AdminDashboard() {
   const chartCardStyle = {
     backgroundColor: "white",
     borderRadius: "10px",
-    padding: "16px 20px",
+    padding: "16px",
     marginBottom: "16px",
     boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
   };
@@ -112,10 +106,12 @@ function AdminDashboard() {
     marginBottom: "14px",
   };
 
+  // Side by side on desktop stacked on mobile
   const chartsRowStyle = {
     display: "flex",
     gap: "16px",
     marginBottom: "16px",
+    flexWrap: "wrap",
   };
 
   const tableStyle = {
@@ -131,12 +127,14 @@ function AdminDashboard() {
     color: "#555",
     fontWeight: "600",
     borderBottom: "2px solid #eee",
+    whiteSpace: "nowrap",
   };
 
   const tdStyle = {
     padding: "10px 12px",
     borderBottom: "1px solid #f0f0f0",
     color: "#333",
+    whiteSpace: "nowrap",
   };
 
   return (
@@ -148,7 +146,9 @@ function AdminDashboard() {
 
           {/* Heading */}
           <div style={headingRowStyle}>
-            <h2 style={headingStyle}>Admin Dashboard</h2>
+            <h2 style={{ fontSize: "22px", fontWeight: "bold", color: "#1a1a2e", margin: 0 }}>
+              Admin Dashboard
+            </h2>
             <PrintReport />
           </div>
 
@@ -168,12 +168,19 @@ function AdminDashboard() {
             </div>
           </div>
 
-          {/* User Statistics - Pie + Line side by side */}
-          <p style={{ ...chartTitleStyle, marginBottom: "10px" }}>User Statistics</p>
+          {/* Pie and Line Charts side by side */}
+          <p style={{ ...chartTitleStyle, marginBottom: "10px" }}>
+            User Statistics
+          </p>
           <div style={chartsRowStyle}>
 
             {/* Pie Chart */}
-            <div style={{ ...chartCardStyle, flex: 1, marginBottom: 0 }}>
+            <div style={{
+              ...chartCardStyle,
+              flex: "1 1 280px",
+              marginBottom: 0,
+            }}>
+              <p style={chartTitleStyle}>User Roles</p>
               <ResponsiveContainer width="100%" height={220}>
                 <PieChart>
                   <Pie
@@ -198,12 +205,17 @@ function AdminDashboard() {
             </div>
 
             {/* Line Chart */}
-            <div style={{ ...chartCardStyle, flex: 2, marginBottom: 0 }}>
+            <div style={{
+              ...chartCardStyle,
+              flex: "2 1 280px",
+              marginBottom: 0,
+            }}>
+              <p style={chartTitleStyle}>Growth Over Months</p>
               <ResponsiveContainer width="100%" height={220}>
                 <LineChart data={lineData}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
+                  <XAxis dataKey="month" tick={{ fontSize: 11 }} />
+                  <YAxis tick={{ fontSize: 11 }} />
                   <Tooltip />
                   <Legend />
                   <Line type="monotone" dataKey="students" stroke="#1abc9c" strokeWidth={2} dot={{ r: 4 }} name="Students" />
@@ -218,26 +230,28 @@ function AdminDashboard() {
           {/* Recent Logs Table */}
           <div style={{ ...chartCardStyle, marginTop: "16px" }}>
             <p style={chartTitleStyle}>Recent Logs</p>
-            <table style={tableStyle}>
-              <thead>
-                <tr>
-                  <th style={thStyle}>ID</th>
-                  <th style={thStyle}>Activity</th>
-                  <th style={thStyle}>Timestamp</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentLogs.map((row, index) => (
-                  <tr key={index}
-                    style={{ backgroundColor: index % 2 === 0 ? "white" : "#fafafa" }}
-                  >
-                    <td style={tdStyle}>{row.id}</td>
-                    <td style={tdStyle}>{row.activity}</td>
-                    <td style={tdStyle}>{row.timestamp}</td>
+            <div style={{ overflowX: "auto" }}>
+              <table style={tableStyle}>
+                <thead>
+                  <tr>
+                    <th style={thStyle}>ID</th>
+                    <th style={thStyle}>Activity</th>
+                    <th style={thStyle}>Timestamp</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {recentLogs.map((row, index) => (
+                    <tr key={index} style={{
+                      backgroundColor: index % 2 === 0 ? "white" : "#fafafa",
+                    }}>
+                      <td style={tdStyle}>{row.id}</td>
+                      <td style={tdStyle}>{row.activity}</td>
+                      <td style={tdStyle}>{row.timestamp}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>

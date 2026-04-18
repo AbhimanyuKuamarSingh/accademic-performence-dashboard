@@ -11,27 +11,24 @@ import {
 
 function FacultyDashboard() {
 
-  // Class performance data
   const classPerformanceData = [
     { class: "Class A", score: 78, average: 65 },
     { class: "Class B", score: 85, average: 72 },
     { class: "Class C", score: 91, average: 80 },
   ];
 
-  // Student progress line chart
   const progressData = [
     { week: "Week 1", classA: 10, classB: 20 },
     { week: "Week 2", classA: 30, classB: 40 },
     { week: "Week 3", classA: 50, classB: 35 },
   ];
 
-  // Recent submissions table
   const recentSubmissions = [
-    { id: 201, name: "Abhimanyu Kumar Singh", assignment: "Essay 1", status: "Graded" },
-    { id: 202, name: "Abhishek Kumar", assignment: "Quiz 3", status: "Pending" },
-    { id: 203, name: "Soojal Mandal", assignment: "Lab Report", status: "Submitted" },
-    { id: 204, name: "Ritik Mehta", assignment: "Essay 2", status: "Graded" },
-    { id: 205, name: "Mukesh Tiwari", assignment: "Quiz 4", status: "Pending" },
+    { id: 201, name: "John Doe", assignment: "Essay 1", status: "Graded" },
+    { id: 202, name: "Jane Smith", assignment: "Quiz 3", status: "Pending" },
+    { id: 203, name: "Mike Johnson", assignment: "Lab Report", status: "Submitted" },
+    { id: 204, name: "Sara Wilson", assignment: "Essay 2", status: "Graded" },
+    { id: 205, name: "Tom Brown", assignment: "Quiz 4", status: "Pending" },
   ];
 
   // ---- Styles ----
@@ -45,6 +42,7 @@ function FacultyDashboard() {
     flex: 1,
     display: "flex",
     flexDirection: "column",
+    minWidth: 0,
   };
 
   const bodyStyle = {
@@ -57,37 +55,33 @@ function FacultyDashboard() {
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: "20px",
-  };
-
-  const headingStyle = {
-    fontSize: "24px",
-    fontWeight: "bold",
-    color: "#1a1a2e",
-    margin: 0,
+    flexWrap: "wrap",
+    gap: "10px",
   };
 
   const statsRowStyle = {
     display: "flex",
-    gap: "16px",
+    gap: "12px",
     marginBottom: "20px",
+    flexWrap: "wrap",
   };
 
   const statCardStyle = (color) => ({
-    flex: 1,
+    flex: "1 1 140px",
     backgroundColor: color,
     borderRadius: "10px",
-    padding: "16px 20px",
+    padding: "16px",
     color: "white",
   });
 
   const statLabelStyle = {
-    fontSize: "13px",
+    fontSize: "12px",
     opacity: 0.9,
     margin: "0 0 6px 0",
   };
 
   const statValueStyle = {
-    fontSize: "36px",
+    fontSize: "32px",
     fontWeight: "bold",
     margin: 0,
   };
@@ -95,7 +89,7 @@ function FacultyDashboard() {
   const chartCardStyle = {
     backgroundColor: "white",
     borderRadius: "10px",
-    padding: "16px 20px",
+    padding: "16px",
     marginBottom: "16px",
     boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
   };
@@ -120,12 +114,14 @@ function FacultyDashboard() {
     color: "#555",
     fontWeight: "600",
     borderBottom: "2px solid #eee",
+    whiteSpace: "nowrap",
   };
 
   const tdStyle = {
     padding: "10px 12px",
     borderBottom: "1px solid #f0f0f0",
     color: "#333",
+    whiteSpace: "nowrap",
   };
 
   const getStatusBadge = (status) => {
@@ -157,7 +153,9 @@ function FacultyDashboard() {
 
           {/* Heading */}
           <div style={headingRowStyle}>
-            <h2 style={headingStyle}>Faculty Dashboard</h2>
+            <h2 style={{ fontSize: "22px", fontWeight: "bold", color: "#1a1a2e", margin: 0 }}>
+              Faculty Dashboard
+            </h2>
             <PrintReport />
           </div>
 
@@ -183,8 +181,8 @@ function FacultyDashboard() {
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={classPerformanceData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="class" tick={{ fontSize: 12 }} />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
+                <XAxis dataKey="class" tick={{ fontSize: 11 }} />
+                <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="score" fill="#e74c3c" radius={[4, 4, 0, 0]} name="Class Score" />
@@ -199,8 +197,8 @@ function FacultyDashboard() {
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={progressData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="week" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
+                <XAxis dataKey="week" tick={{ fontSize: 11 }} />
+                <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip />
                 <Legend />
                 <Line
@@ -208,7 +206,7 @@ function FacultyDashboard() {
                   dataKey="classA"
                   stroke="#3498db"
                   strokeWidth={2}
-                  dot={{ r: 5 }}
+                  dot={{ r: 4 }}
                   name="Class A"
                 />
                 <Line
@@ -216,7 +214,7 @@ function FacultyDashboard() {
                   dataKey="classB"
                   stroke="#e67e22"
                   strokeWidth={2}
-                  dot={{ r: 5 }}
+                  dot={{ r: 4 }}
                   name="Class B"
                 />
               </LineChart>
@@ -226,28 +224,30 @@ function FacultyDashboard() {
           {/* Recent Submissions Table */}
           <div style={chartCardStyle}>
             <p style={chartTitleStyle}>Recent Submissions</p>
-            <table style={tableStyle}>
-              <thead>
-                <tr>
-                  <th style={thStyle}>ID</th>
-                  <th style={thStyle}>Student Name</th>
-                  <th style={thStyle}>Assignment</th>
-                  <th style={thStyle}>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentSubmissions.map((row, index) => (
-                  <tr key={index}
-                    style={{ backgroundColor: index % 2 === 0 ? "white" : "#fafafa" }}
-                  >
-                    <td style={tdStyle}>{row.id}</td>
-                    <td style={tdStyle}>{row.name}</td>
-                    <td style={tdStyle}>{row.assignment}</td>
-                    <td style={tdStyle}>{getStatusBadge(row.status)}</td>
+            <div style={{ overflowX: "auto" }}>
+              <table style={tableStyle}>
+                <thead>
+                  <tr>
+                    <th style={thStyle}>ID</th>
+                    <th style={thStyle}>Student Name</th>
+                    <th style={thStyle}>Assignment</th>
+                    <th style={thStyle}>Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {recentSubmissions.map((row, index) => (
+                    <tr key={index} style={{
+                      backgroundColor: index % 2 === 0 ? "white" : "#fafafa",
+                    }}>
+                      <td style={tdStyle}>{row.id}</td>
+                      <td style={tdStyle}>{row.name}</td>
+                      <td style={tdStyle}>{row.assignment}</td>
+                      <td style={tdStyle}>{getStatusBadge(row.status)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>

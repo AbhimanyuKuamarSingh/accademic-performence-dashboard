@@ -1,9 +1,10 @@
 // src/components/Navbar.js
-import React from "react";
+import React, { useState } from "react";
 
 function Navbar() {
   const role = localStorage.getItem("role") || "Guest";
   const user = localStorage.getItem("user") || "User";
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navStyle = {
     backgroundColor:
@@ -11,22 +12,25 @@ function Navbar() {
       role === "faculty" ? "#e74c3c" :
       "#1abc9c",
     color: "white",
-    padding: "12px 24px",
+    padding: "12px 16px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    flexWrap: "wrap",
+    gap: "8px",
   };
 
   const titleStyle = {
-    fontSize: "16px",
+    fontSize: "14px",
     fontWeight: "bold",
     margin: 0,
+    flex: 1,
   };
 
   const rightStyle = {
     display: "flex",
     alignItems: "center",
-    gap: "16px",
+    gap: "10px",
     fontSize: "13px",
   };
 
@@ -39,17 +43,19 @@ function Navbar() {
     alignItems: "center",
     justifyContent: "center",
     fontSize: "16px",
+    cursor: "pointer",
   };
 
   return (
     <div style={navStyle}>
       <h1 style={titleStyle}>
-        Academic Performance Analysis Visualization System
+        📚 Academic Performance System
       </h1>
       <div style={rightStyle}>
-        <span>👤 {user}</span>
+        <span style={{ fontSize: "12px" }}>👤 {user}</span>
         <div style={avatarStyle}>
-          {role === "student" ? "🎓" : role === "faculty" ? "👨‍🏫" : "⚙️"}
+          {role === "student" ? "🎓" :
+           role === "faculty" ? "👨‍🏫" : "⚙️"}
         </div>
       </div>
     </div>
