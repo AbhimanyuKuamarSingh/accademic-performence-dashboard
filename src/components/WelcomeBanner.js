@@ -1,8 +1,7 @@
+// src/components/WelcomeBanner.js
 import React, { useState, useEffect } from "react";
-import { useTheme } from "../context/ThemeContext";
 
 function WelcomeBanner() {
-  const { isDark } = useTheme();
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -47,7 +46,7 @@ function WelcomeBanner() {
       flexWrap: "wrap",
       gap: "16px",
       color: "white",
-      animation: "fadeInUp 0.5s ease forwards",
+      animation: "bounceDrop 0.7s cubic-bezier(0.36, 0.07, 0.19, 0.97) both",
     }}>
       <div>
         <p style={{ fontSize: "14px", opacity: 0.85, margin: "0 0 2px 0" }}>
@@ -70,11 +69,27 @@ function WelcomeBanner() {
         </span>
       </div>
       <div style={{ textAlign: "right" }}>
-        <p style={{ fontSize: "28px", fontWeight: "bold", margin: "0 0 4px 0", fontFamily: "monospace", letterSpacing: "2px" }}>
-          {currentTime.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true })}
+        <p style={{
+          fontSize: "28px",
+          fontWeight: "bold",
+          margin: "0 0 4px 0",
+          fontFamily: "monospace",
+          letterSpacing: "2px",
+        }}>
+          {currentTime.toLocaleTimeString("en-IN", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+          })}
         </p>
         <p style={{ fontSize: "12px", opacity: 0.85, margin: 0 }}>
-          {currentTime.toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+          {currentTime.toLocaleDateString("en-IN", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
         </p>
       </div>
     </div>
