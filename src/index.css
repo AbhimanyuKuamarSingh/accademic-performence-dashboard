@@ -1,7 +1,3 @@
-/* ============================================
-   index.css - Global styles with Dark Mode
-   ============================================ */
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,13 +6,13 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f2f5;
+  background-color: #f1f5f9;
   overflow-x: hidden;
   transition: background-color 0.3s ease;
 }
 
 body.dark {
-  background-color: #1a1a2e;
+  background-color: #0f172a;
   color: white;
 }
 
@@ -25,7 +21,38 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Fade in up animation for stat cards */
+/* =============================================
+   BOUNCE DROP ANIMATION
+   Like an apple falling from tree and bouncing
+   ============================================= */
+@keyframes bounceDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(10px);
+  }
+  75% {
+    transform: translateY(-6px);
+  }
+  88% {
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in for page body */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Count up for stat cards */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -37,32 +64,6 @@ html, body {
   }
 }
 
-/* Fade in animation for dashboard sections */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Slide in from left for sidebar */
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 @media (max-width: 768px) {
-  body {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    font-size: 13px;
-  }
+  body { font-size: 14px; }
 }

@@ -1,11 +1,3 @@
-// src/components/ProgressCard.js
-// ============================================
-// PURPOSE:
-//   A card that shows multiple progress bars
-//   Used in all 3 dashboards
-//   Shows subject wise performance visually
-// ============================================
-
 import React from "react";
 import { useTheme } from "../context/ThemeContext";
 import ProgressBar from "./ProgressBar";
@@ -13,75 +5,60 @@ import ProgressBar from "./ProgressBar";
 function ProgressCard({ title, data }) {
   const { isDark } = useTheme();
 
-  const cardStyle = {
-    backgroundColor: isDark ? "#16213e" : "white",
-    borderRadius: "10px",
-    padding: "20px",
-    marginBottom: "16px",
-    boxShadow: isDark
-      ? "0 2px 6px rgba(0,0,0,0.4)"
-      : "0 2px 6px rgba(0,0,0,0.06)",
-    animation: "fadeInUp 0.6s ease forwards",
-  };
-
-  const titleStyle = {
-    fontSize: "15px",
-    fontWeight: "bold",
-    color: isDark ? "#ffffff" : "#1a1a2e",
-    marginBottom: "20px",
-    paddingBottom: "10px",
-    borderBottom: `1px solid ${isDark ? "#2d3748" : "#ecf0f1"}`,
-  };
-
-  // Overall average calculation
   const average = Math.round(
     data.reduce((sum, item) => sum + item.value, 0) / data.length
   );
 
-  const averageColor =
-    average >= 75 ? "#27ae60" :
-    average >= 50 ? "#e67e22" :
-    "#e74c3c";
-
-  const averageBoxStyle = {
-    backgroundColor: isDark ? "#0f3460" : "#f8f9fa",
-    borderRadius: "8px",
-    padding: "12px 16px",
-    marginBottom: "20px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  };
-
-  const averageLabelStyle = {
-    fontSize: "13px",
-    color: isDark ? "#a0aec0" : "#7f8c8d",
-  };
-
-  const averageValueStyle = {
-    fontSize: "20px",
-    fontWeight: "bold",
-    color: averageColor,
-  };
+  const avgColor =
+    average >= 75 ? "#10b981" :
+    average >= 50 ? "#f59e0b" :
+    "#ef4444";
 
   return (
-    <div style={cardStyle}>
-      <p style={titleStyle}>{title}</p>
+    <div style={{
+      backgroundColor: isDark ? "#111827" : "white",
+      borderRadius: "12px",
+      padding: "18px 20px",
+      marginBottom: "16px",
+      border: `0.5px solid ${isDark ? "#1e293b" : "#e2e8f0"}`,
+      animation: "fadeInUp 0.6s ease forwards",
+    }}>
+      <p style={{
+        fontSize: "14px",
+        fontWeight: "bold",
+        color: isDark ? "#f1f5f9" : "#1e293b",
+        marginBottom: "14px",
+        paddingBottom: "10px",
+        borderBottom: `0.5px solid ${isDark ? "#1e293b" : "#e2e8f0"}`,
+      }}>
+        {title}
+      </p>
 
-      {/* Overall average box */}
-      <div style={averageBoxStyle}>
-        <span style={averageLabelStyle}>Overall Average</span>
-        <span style={averageValueStyle}>{average}%</span>
+      {/* Average box */}
+      <div style={{
+        backgroundColor: isDark ? "#1e293b" : "#f8fafc",
+        borderRadius: "8px",
+        padding: "10px 14px",
+        marginBottom: "16px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        border: `0.5px solid ${isDark ? "#2d3748" : "#e2e8f0"}`,
+      }}>
+        <span style={{ fontSize: "12px", color: isDark ? "#94a3b8" : "#64748b" }}>
+          Overall Average
+        </span>
+        <span style={{ fontSize: "20px", fontWeight: "bold", color: avgColor }}>
+          {average}%
+        </span>
       </div>
 
-      {/* Progress bars for each subject */}
       {data.map((item, index) => (
         <ProgressBar
           key={index}
           label={item.label}
           value={item.value}
           maxValue={item.maxValue || 100}
-          color={item.color}
         />
       ))}
     </div>
