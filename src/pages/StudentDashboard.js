@@ -51,11 +51,11 @@ function StudentDashboard() {
   ];
 
   const recentGrades = [
-    { id: 101, course: "Math", marks: 85, grade: "A" },
-    { id: 102, course: "Physics", marks: 72, grade: "B" },
-    { id: 103, course: "Chemistry", marks: 68, grade: "B" },
-    { id: 104, course: "English", marks: 90, grade: "A+" },
-    { id: 105, course: "CS", marks: 95, grade: "A+" },
+    { id: 101, course: "Data Mining", marks: 85, grade: "A" },
+    { id: 102, course: "Neural Network", marks: 72, grade: "B" },
+    { id: 103, course: "Data Science", marks: 68, grade: "B" },
+    { id: 104, course: "Distributed System", marks: 90, grade: "A+" },
+    { id: 105, course: "Machine Learning", marks: 95, grade: "A+" },
   ];
 
   const card = {
