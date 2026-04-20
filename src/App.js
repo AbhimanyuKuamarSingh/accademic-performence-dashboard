@@ -1,15 +1,6 @@
-// ============================================
-// App.js
-// ============================================
-// PURPOSE:
-//   Main file of the app
-//   Sets up all routes using React Router
-//   ProtectedRoute checks if user is logged in
-//   before allowing access to dashboards
-// ============================================
-
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./pages/website/Home";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/StudentDashboard";
 import FacultyDashboard from "./pages/FacultyDashboard";
@@ -18,25 +9,12 @@ import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 import Unauthorized from "./pages/Unauthorized";
 
-// ---- ProtectedRoute Component ----
-// This component wraps protected pages
-// If user is not logged in — redirect to login
-// If user has wrong role — redirect to unauthorized page
 function ProtectedRoute({ children, allowedRole }) {
-  // Get role saved in localStorage after login
   const role = localStorage.getItem("role");
-
-  // No role means user is not logged in
-  if (!role) {
-    return <Navigate to="/" replace />;
-  }
-
-  // Role does not match — show unauthorized page
+  if (!role) return <Navigate to="/login" replace />;
   if (allowedRole && role !== allowedRole) {
     return <Navigate to="/unauthorized" replace />;
   }
-
-  // Everything is fine — show the page
   return children;
 }
 
@@ -45,10 +23,13 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* Public route — anyone can see login */}
-        <Route path="/" element={<Login />} />
+        {/* College Website Home */}
+        <Route path="/" element={<Home />} />
 
-        {/* Student dashboard — only for student role */}
+        {/* Login page */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Dashboards */}
         <Route
           path="/student"
           element={
@@ -57,8 +38,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Faculty dashboard — only for faculty role */}
         <Route
           path="/faculty"
           element={
@@ -67,8 +46,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Admin dashboard — only for admin role */}
         <Route
           path="/admin"
           element={
@@ -77,8 +54,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Profile page — all logged in roles can access */}
         <Route
           path="/profile"
           element={
@@ -88,10 +63,8 @@ function App() {
           }
         />
 
-        {/* Unauthorized page — shown when wrong role */}
+        {/* Error pages */}
         <Route path="/unauthorized" element={<Unauthorized />} />
-
-        {/* 404 page — shown for any unknown URL */}
         <Route path="*" element={<NotFound />} />
 
       </Routes>
