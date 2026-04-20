@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../context/ToastContext";
+import collegeBg from "../college.jpg";
 
 function Login() {
-  // Controls which tab is active - login or signup
   const [activeTab, setActiveTab] = useState("login");
 
-  // Login form state
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
     role: "student",
   });
 
-  // Signup form state
   const [signupData, setSignupData] = useState({
     fullName: "",
     username: "",
@@ -32,7 +30,6 @@ function Login() {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
-  // Role options
   const roles = [
     {
       id: "student",
@@ -63,22 +60,20 @@ function Login() {
     },
   ];
 
-  const selectedRole = roles.find((r) => r.id === loginData.role)
-    || roles[0];
-  const selectedSignupRole = roles.find((r) => r.id === signupData.role)
-    || roles[0];
+  const selectedRole =
+    roles.find((r) => r.id === loginData.role) || roles[0];
+  const selectedSignupRole =
+    roles.find((r) => r.id === signupData.role) || roles[0];
 
   // ---- Validate Login ----
   const validateLogin = () => {
     const newErrors = {};
-    if (!loginData.username.trim()) {
+    if (!loginData.username.trim())
       newErrors.username = "Username is required";
-    }
-    if (!loginData.password) {
+    if (!loginData.password)
       newErrors.password = "Password is required";
-    } else if (loginData.password.length < 4) {
-      newErrors.password = "Password must be at least 4 characters";
-    }
+    else if (loginData.password.length < 4)
+      newErrors.password = "Minimum 4 characters";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -86,29 +81,24 @@ function Login() {
   // ---- Validate Signup ----
   const validateSignup = () => {
     const newErrors = {};
-    if (!signupData.fullName.trim()) {
+    if (!signupData.fullName.trim())
       newErrors.fullName = "Full name is required";
-    }
-    if (!signupData.username.trim()) {
+    if (!signupData.username.trim())
       newErrors.username = "Username is required";
-    } else if (signupData.username.length < 3) {
-      newErrors.username = "Username must be at least 3 characters";
-    }
-    if (!signupData.email.trim()) {
+    else if (signupData.username.length < 3)
+      newErrors.username = "Min 3 characters";
+    if (!signupData.email.trim())
       newErrors.email = "Email is required";
-    } else if (!signupData.email.includes("@")) {
-      newErrors.email = "Please enter a valid email";
-    }
-    if (!signupData.password) {
+    else if (!signupData.email.includes("@"))
+      newErrors.email = "Invalid email";
+    if (!signupData.password)
       newErrors.password = "Password is required";
-    } else if (signupData.password.length < 4) {
-      newErrors.password = "Password must be at least 4 characters";
-    }
-    if (!signupData.confirmPassword) {
-      newErrors.confirmPassword = "Please confirm your password";
-    } else if (signupData.password !== signupData.confirmPassword) {
+    else if (signupData.password.length < 4)
+      newErrors.password = "Min 4 characters";
+    if (!signupData.confirmPassword)
+      newErrors.confirmPassword = "Please confirm password";
+    else if (signupData.password !== signupData.confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
-    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -142,11 +132,13 @@ function Login() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      // Save user data and redirect
       localStorage.setItem("role", signupData.role);
       localStorage.setItem("user", signupData.username);
       localStorage.setItem("email", signupData.email);
-      showToast(`Account created successfully! Welcome ${signupData.fullName}! 🎉`, "success");
+      showToast(
+        `Welcome ${signupData.fullName}! Account created 🎉`,
+        "success"
+      );
       setTimeout(() => {
         if (signupData.role === "student") navigate("/student");
         else if (signupData.role === "faculty") navigate("/faculty");
@@ -162,13 +154,8 @@ function Login() {
     }
   };
 
-  // ---- Styles ----
-  const inputContainerStyle = {
-    position: "relative",
-    marginBottom: "4px",
-  };
-
-  const inputStyle = (hasError, focusColor) => ({
+  // ---- Reusable styles ----
+  const inputStyle = (hasError) => ({
     width: "100%",
     padding: "12px 14px 12px 42px",
     border: hasError
@@ -203,7 +190,7 @@ function Login() {
   const errorTextStyle = {
     fontSize: "11px",
     color: "#ef4444",
-    margin: "4px 0 10px",
+    margin: "4px 0 8px",
   };
 
   const eyeButtonStyle = {
@@ -223,132 +210,193 @@ function Login() {
     <div style={{
       display: "flex",
       minHeight: "100vh",
-      backgroundColor: "#f1f5f9",
       fontFamily: "Arial, sans-serif",
     }}>
 
-      {/* ===== LEFT PANEL ===== */}
+      {/* ===== LEFT PANEL - College Background ===== */}
       <div
         className="login-left"
         style={{
           flex: 1,
-          background: "linear-gradient(135deg, #1e3a8a, #3b82f6, #60a5fa)",
+          position: "relative",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "40px",
-          color: "white",
+          justifyContent: "flex-end",
+          overflow: "hidden",
+          minHeight: "100vh",
         }}
       >
-        {/* Logo */}
+        {/* College photo as background */}
+        <img
+          src={collegeBg}
+          alt="LNCT Campus Bhopal"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center top",
+          }}
+        />
+
+        {/* Dark gradient overlay - top light, bottom dark */}
         <div style={{
-          width: "80px",
-          height: "80px",
-          borderRadius: "20px",
-          backgroundColor: "rgba(255,255,255,0.2)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "36px",
-          marginBottom: "24px",
-          border: "2px solid rgba(255,255,255,0.3)",
-        }}>
-          📚
-        </div>
-
-        <h1 style={{
-          fontSize: "28px",
-          fontWeight: "bold",
-          margin: "0 0 10px",
-          textAlign: "center",
-        }}>
-          Academic Performance
-        </h1>
-
-        <p style={{
-          fontSize: "15px",
-          opacity: 0.85,
-          textAlign: "center",
-          margin: "0 0 36px",
-          lineHeight: 1.6,
-          maxWidth: "300px",
-        }}>
-          Your complete academic analysis and visualization platform
-        </p>
-
-        {/* Stats */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "12px",
+          position: "absolute",
+          top: 0,
+          left: 0,
           width: "100%",
-          maxWidth: "300px",
-          marginBottom: "32px",
+          height: "100%",
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.85) 100%)",
+        }} />
+
+        {/* Text content over image */}
+        <div style={{
+          position: "relative",
+          zIndex: 1,
+          padding: "32px",
+          color: "white",
         }}>
-          {[
-            { value: "500+", label: "Students" },
-            { value: "50+", label: "Faculty" },
-            { value: "10+", label: "Departments" },
-            { value: "99%", label: "Uptime" },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              style={{
-                backgroundColor: "rgba(255,255,255,0.15)",
-                borderRadius: "10px",
-                padding: "14px",
-                textAlign: "center",
-                border: "1px solid rgba(255,255,255,0.2)",
-              }}
-            >
-              <p style={{
-                fontSize: "22px",
+
+          {/* College logo and name */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "14px",
+            marginBottom: "20px",
+          }}>
+            <div style={{
+              width: "52px",
+              height: "52px",
+              borderRadius: "14px",
+              backgroundColor: "rgba(255,255,255,0.2)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "24px",
+              border: "2px solid rgba(255,255,255,0.4)",
+              flexShrink: 0,
+            }}>
+              📚
+            </div>
+            <div>
+              <h1 style={{
+                fontSize: "17px",
                 fontWeight: "bold",
-                margin: "0 0 2px",
+                margin: 0,
+                lineHeight: 1.3,
               }}>
-                {stat.value}
-              </p>
+                LNCT Campus Bhopal
+              </h1>
               <p style={{
                 fontSize: "12px",
                 opacity: 0.85,
                 margin: 0,
               }}>
-                {stat.label}
+                Laxminarayan College of Technology
               </p>
             </div>
-          ))}
-        </div>
-
-        {/* Features */}
-        {[
-          { icon: "📊", text: "Performance charts and analytics" },
-          { icon: "🌙", text: "Dark mode support" },
-          { icon: "📱", text: "Fully responsive design" },
-          { icon: "🖨️", text: "Download PDF reports" },
-        ].map((f, i) => (
-          <div
-            key={i}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              marginBottom: "10px",
-              backgroundColor: "rgba(255,255,255,0.1)",
-              padding: "10px 16px",
-              borderRadius: "8px",
-              width: "100%",
-              maxWidth: "300px",
-              border: "1px solid rgba(255,255,255,0.15)",
-            }}
-          >
-            <span style={{ fontSize: "16px" }}>{f.icon}</span>
-            <span style={{ fontSize: "13px", opacity: 0.95 }}>{f.text}</span>
           </div>
-        ))}
+
+          {/* Main title */}
+          <h2 style={{
+            fontSize: "26px",
+            fontWeight: "bold",
+            margin: "0 0 10px",
+            lineHeight: 1.3,
+          }}>
+            Academic Performance
+            <br />
+            Analysis System
+          </h2>
+
+          <p style={{
+            fontSize: "14px",
+            opacity: 0.9,
+            margin: "0 0 24px",
+            lineHeight: 1.6,
+            maxWidth: "340px",
+          }}>
+            Track, analyze and visualize academic performance
+            for students, faculty and administrators.
+          </p>
+
+          {/* Stats row */}
+          <div style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "20px",
+          }}>
+            {[
+              { value: "500+", label: "Students" },
+              { value: "50+", label: "Faculty" },
+              { value: "10+", label: "Departments" },
+              { value: "99%", label: "Uptime" },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                style={{
+                  flex: 1,
+                  backgroundColor: "rgba(255,255,255,0.15)",
+                  borderRadius: "10px",
+                  padding: "10px 6px",
+                  textAlign: "center",
+                  border: "1px solid rgba(255,255,255,0.25)",
+                }}
+              >
+                <p style={{
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  margin: "0 0 2px",
+                }}>
+                  {stat.value}
+                </p>
+                <p style={{
+                  fontSize: "11px",
+                  opacity: 0.85,
+                  margin: 0,
+                }}>
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Feature badges */}
+          <div style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "8px",
+          }}>
+            {[
+              "📊 Charts",
+              "🌙 Dark Mode",
+              "📱 Responsive",
+              "🖨️ PDF Reports",
+              "🔒 Role Access",
+              "🎓 MCA Project",
+            ].map((feature, i) => (
+              <span
+                key={i}
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.15)",
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  borderRadius: "20px",
+                  padding: "5px 12px",
+                  fontSize: "12px",
+                }}
+              >
+                {feature}
+              </span>
+            ))}
+          </div>
+
+        </div>
       </div>
 
-      {/* ===== RIGHT PANEL ===== */}
+      {/* ===== RIGHT PANEL - Login/Signup Form ===== */}
       <div style={{
         width: "500px",
         display: "flex",
@@ -360,14 +408,16 @@ function Login() {
       }}>
 
         {/* Header */}
-        <div style={{ marginBottom: "28px" }}>
+        <div style={{ marginBottom: "24px" }}>
           <h2 style={{
             fontSize: "24px",
             fontWeight: "bold",
             color: "#1e293b",
             margin: "0 0 4px",
           }}>
-            {activeTab === "login" ? "Welcome back! 👋" : "Create account 🚀"}
+            {activeTab === "login"
+              ? "Welcome back! 👋"
+              : "Create account 🚀"}
           </h2>
           <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>
             {activeTab === "login"
@@ -382,7 +432,7 @@ function Login() {
           backgroundColor: "#f1f5f9",
           borderRadius: "10px",
           padding: "4px",
-          marginBottom: "24px",
+          marginBottom: "20px",
         }}>
           {["login", "signup"].map((tab) => (
             <button
@@ -400,11 +450,14 @@ function Login() {
                 fontWeight: "600",
                 cursor: "pointer",
                 transition: "all 0.2s",
-                backgroundColor: activeTab === tab ? "white" : "transparent",
-                color: activeTab === tab ? "#1e293b" : "#94a3b8",
-                boxShadow: activeTab === tab
-                  ? "0 1px 4px rgba(0,0,0,0.1)"
-                  : "none",
+                backgroundColor:
+                  activeTab === tab ? "white" : "transparent",
+                color:
+                  activeTab === tab ? "#1e293b" : "#94a3b8",
+                boxShadow:
+                  activeTab === tab
+                    ? "0 1px 4px rgba(0,0,0,0.1)"
+                    : "none",
               }}
             >
               {tab === "login" ? "🔑 Sign In" : "✨ Sign Up"}
@@ -412,14 +465,15 @@ function Login() {
           ))}
         </div>
 
-        {/* Role Selection */}
-        <div style={{ marginBottom: "20px" }}>
+        {/* Role Selection - shared for both tabs */}
+        <div style={{ marginBottom: "18px" }}>
           <p style={labelStyle}>Select your role</p>
           <div style={{ display: "flex", gap: "8px" }}>
             {roles.map((r) => {
-              const currentRole = activeTab === "login"
-                ? loginData.role
-                : signupData.role;
+              const currentRole =
+                activeTab === "login"
+                  ? loginData.role
+                  : signupData.role;
               const isSelected = currentRole === r.id;
               return (
                 <div
@@ -444,7 +498,10 @@ function Login() {
                     transition: "all 0.2s",
                   }}
                 >
-                  <div style={{ fontSize: "20px", marginBottom: "3px" }}>
+                  <div style={{
+                    fontSize: "20px",
+                    marginBottom: "3px",
+                  }}>
                     {r.icon}
                   </div>
                   <div style={{
@@ -478,21 +535,25 @@ function Login() {
         {/* ===== LOGIN FORM ===== */}
         {activeTab === "login" && (
           <div>
+
             {/* Username */}
             <div style={{ marginBottom: "4px" }}>
               <label style={labelStyle}>Username</label>
-              <div style={inputContainerStyle}>
+              <div style={{ position: "relative" }}>
                 <span style={iconStyle}>👤</span>
                 <input
                   type="text"
                   placeholder="Enter your username"
                   value={loginData.username}
                   onChange={(e) => {
-                    setLoginData({ ...loginData, username: e.target.value });
+                    setLoginData({
+                      ...loginData,
+                      username: e.target.value,
+                    });
                     setErrors({ ...errors, username: "" });
                   }}
                   onKeyPress={handleKeyPress}
-                  style={inputStyle(errors.username, selectedRole.color)}
+                  style={inputStyle(errors.username)}
                   onFocus={(e) => {
                     e.target.style.border = `1.5px solid ${selectedRole.color}`;
                     e.target.style.backgroundColor = "white";
@@ -511,21 +572,24 @@ function Login() {
             </div>
 
             {/* Password */}
-            <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "18px" }}>
               <label style={labelStyle}>Password</label>
-              <div style={inputContainerStyle}>
+              <div style={{ position: "relative" }}>
                 <span style={iconStyle}>🔒</span>
                 <input
                   type={showLoginPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   value={loginData.password}
                   onChange={(e) => {
-                    setLoginData({ ...loginData, password: e.target.value });
+                    setLoginData({
+                      ...loginData,
+                      password: e.target.value,
+                    });
                     setErrors({ ...errors, password: "" });
                   }}
                   onKeyPress={handleKeyPress}
                   style={{
-                    ...inputStyle(errors.password, selectedRole.color),
+                    ...inputStyle(errors.password),
                     paddingRight: "42px",
                   }}
                   onFocus={(e) => {
@@ -541,7 +605,9 @@ function Login() {
                 />
                 <button
                   style={eyeButtonStyle}
-                  onClick={() => setShowLoginPassword(!showLoginPassword)}
+                  onClick={() =>
+                    setShowLoginPassword(!showLoginPassword)
+                  }
                 >
                   {showLoginPassword ? "🙈" : "👁️"}
                 </button>
@@ -558,14 +624,16 @@ function Login() {
               style={{
                 width: "100%",
                 padding: "13px",
-                backgroundColor: loading ? "#94a3b8" : selectedRole.color,
+                backgroundColor: loading
+                  ? "#94a3b8"
+                  : selectedRole.color,
                 color: "white",
                 border: "none",
                 borderRadius: "10px",
                 fontSize: "15px",
                 fontWeight: "bold",
                 cursor: loading ? "not-allowed" : "pointer",
-                marginBottom: "16px",
+                marginBottom: "14px",
                 transition: "opacity 0.2s",
               }}
               onMouseEnter={(e) => {
@@ -585,7 +653,7 @@ function Login() {
               textAlign: "center",
               fontSize: "13px",
               color: "#64748b",
-              margin: "0 0 20px",
+              margin: "0 0 16px",
             }}>
               Don't have an account?{" "}
               <span
@@ -608,16 +676,24 @@ function Login() {
               display: "flex",
               alignItems: "center",
               gap: "12px",
-              marginBottom: "16px",
+              marginBottom: "14px",
             }}>
-              <div style={{ flex: 1, height: "1px", backgroundColor: "#e2e8f0" }} />
+              <div style={{
+                flex: 1,
+                height: "1px",
+                backgroundColor: "#e2e8f0",
+              }} />
               <span style={{ fontSize: "12px", color: "#94a3b8" }}>
-                Quick Demo Login
+                Quick Demo
               </span>
-              <div style={{ flex: 1, height: "1px", backgroundColor: "#e2e8f0" }} />
+              <div style={{
+                flex: 1,
+                height: "1px",
+                backgroundColor: "#e2e8f0",
+              }} />
             </div>
 
-            {/* Quick login cards */}
+            {/* Quick demo cards */}
             <div style={{ display: "flex", gap: "8px" }}>
               {roles.map((r) => (
                 <div
@@ -628,7 +704,10 @@ function Login() {
                       password: r.id + "1234",
                       role: r.id,
                     });
-                    showToast(`Filled ${r.label} credentials`, "info");
+                    showToast(
+                      `Filled ${r.label} credentials`,
+                      "info"
+                    );
                   }}
                   style={{
                     flex: 1,
@@ -638,16 +717,21 @@ function Login() {
                     padding: "10px 6px",
                     textAlign: "center",
                     cursor: "pointer",
-                    transition: "transform 0.1s",
+                    transition: "transform 0.15s",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.transform =
+                      "translateY(-2px)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.transform =
+                      "translateY(0)";
                   }}
                 >
-                  <div style={{ fontSize: "18px", marginBottom: "3px" }}>
+                  <div style={{
+                    fontSize: "18px",
+                    marginBottom: "3px",
+                  }}>
                     {r.icon}
                   </div>
                   <div style={{
@@ -657,12 +741,16 @@ function Login() {
                   }}>
                     {r.label}
                   </div>
-                  <div style={{ fontSize: "10px", color: "#64748b" }}>
+                  <div style={{
+                    fontSize: "10px",
+                    color: "#64748b",
+                  }}>
                     Click to fill
                   </div>
                 </div>
               ))}
             </div>
+
           </div>
         )}
 
@@ -673,18 +761,21 @@ function Login() {
             {/* Full Name */}
             <div style={{ marginBottom: "4px" }}>
               <label style={labelStyle}>Full Name</label>
-              <div style={inputContainerStyle}>
+              <div style={{ position: "relative" }}>
                 <span style={iconStyle}>👤</span>
                 <input
                   type="text"
                   placeholder="Enter your full name"
                   value={signupData.fullName}
                   onChange={(e) => {
-                    setSignupData({ ...signupData, fullName: e.target.value });
+                    setSignupData({
+                      ...signupData,
+                      fullName: e.target.value,
+                    });
                     setErrors({ ...errors, fullName: "" });
                   }}
                   onKeyPress={handleKeyPress}
-                  style={inputStyle(errors.fullName, selectedSignupRole.color)}
+                  style={inputStyle(errors.fullName)}
                   onFocus={(e) => {
                     e.target.style.border = `1.5px solid ${selectedSignupRole.color}`;
                     e.target.style.backgroundColor = "white";
@@ -705,21 +796,23 @@ function Login() {
             {/* Username and Email side by side */}
             <div style={{ display: "flex", gap: "10px" }}>
 
-              {/* Username */}
-              <div style={{ flex: 1, marginBottom: "4px" }}>
+              <div style={{ flex: 1 }}>
                 <label style={labelStyle}>Username</label>
-                <div style={inputContainerStyle}>
+                <div style={{ position: "relative" }}>
                   <span style={iconStyle}>🆔</span>
                   <input
                     type="text"
                     placeholder="Choose username"
                     value={signupData.username}
                     onChange={(e) => {
-                      setSignupData({ ...signupData, username: e.target.value });
+                      setSignupData({
+                        ...signupData,
+                        username: e.target.value,
+                      });
                       setErrors({ ...errors, username: "" });
                     }}
                     onKeyPress={handleKeyPress}
-                    style={inputStyle(errors.username, selectedSignupRole.color)}
+                    style={inputStyle(errors.username)}
                     onFocus={(e) => {
                       e.target.style.border = `1.5px solid ${selectedSignupRole.color}`;
                       e.target.style.backgroundColor = "white";
@@ -737,21 +830,23 @@ function Login() {
                 )}
               </div>
 
-              {/* Email */}
-              <div style={{ flex: 1, marginBottom: "4px" }}>
+              <div style={{ flex: 1 }}>
                 <label style={labelStyle}>Email</label>
-                <div style={inputContainerStyle}>
+                <div style={{ position: "relative" }}>
                   <span style={iconStyle}>✉️</span>
                   <input
                     type="email"
                     placeholder="Your email"
                     value={signupData.email}
                     onChange={(e) => {
-                      setSignupData({ ...signupData, email: e.target.value });
+                      setSignupData({
+                        ...signupData,
+                        email: e.target.value,
+                      });
                       setErrors({ ...errors, email: "" });
                     }}
                     onKeyPress={handleKeyPress}
-                    style={inputStyle(errors.email, selectedSignupRole.color)}
+                    style={inputStyle(errors.email)}
                     onFocus={(e) => {
                       e.target.style.border = `1.5px solid ${selectedSignupRole.color}`;
                       e.target.style.backgroundColor = "white";
@@ -774,19 +869,22 @@ function Login() {
             {/* Password */}
             <div style={{ marginBottom: "4px" }}>
               <label style={labelStyle}>Password</label>
-              <div style={inputContainerStyle}>
+              <div style={{ position: "relative" }}>
                 <span style={iconStyle}>🔒</span>
                 <input
                   type={showSignupPassword ? "text" : "password"}
                   placeholder="Create a password"
                   value={signupData.password}
                   onChange={(e) => {
-                    setSignupData({ ...signupData, password: e.target.value });
+                    setSignupData({
+                      ...signupData,
+                      password: e.target.value,
+                    });
                     setErrors({ ...errors, password: "" });
                   }}
                   onKeyPress={handleKeyPress}
                   style={{
-                    ...inputStyle(errors.password, selectedSignupRole.color),
+                    ...inputStyle(errors.password),
                     paddingRight: "42px",
                   }}
                   onFocus={(e) => {
@@ -802,7 +900,9 @@ function Login() {
                 />
                 <button
                   style={eyeButtonStyle}
-                  onClick={() => setShowSignupPassword(!showSignupPassword)}
+                  onClick={() =>
+                    setShowSignupPassword(!showSignupPassword)
+                  }
                 >
                   {showSignupPassword ? "🙈" : "👁️"}
                 </button>
@@ -812,10 +912,58 @@ function Login() {
               )}
             </div>
 
+            {/* Password strength bar */}
+            {signupData.password && (
+              <div style={{ marginBottom: "10px" }}>
+                <div style={{
+                  display: "flex",
+                  gap: "4px",
+                  marginBottom: "4px",
+                }}>
+                  {[1, 2, 3, 4].map((level) => {
+                    const len = signupData.password.length;
+                    const filled = len >= level * 2;
+                    const color =
+                      len < 4 ? "#ef4444" :
+                      len < 7 ? "#f59e0b" :
+                      len < 10 ? "#3b82f6" : "#10b981";
+                    return (
+                      <div
+                        key={level}
+                        style={{
+                          flex: 1,
+                          height: "4px",
+                          borderRadius: "4px",
+                          backgroundColor: filled
+                            ? color
+                            : "#e2e8f0",
+                          transition: "background-color 0.3s",
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+                <p style={{
+                  fontSize: "11px",
+                  color:
+                    signupData.password.length < 4 ? "#ef4444" :
+                    signupData.password.length < 7 ? "#f59e0b" :
+                    signupData.password.length < 10 ? "#3b82f6" :
+                    "#10b981",
+                  margin: 0,
+                }}>
+                  {signupData.password.length < 4 ? "Weak" :
+                   signupData.password.length < 7 ? "Fair" :
+                   signupData.password.length < 10 ? "Good" :
+                   "Strong ✅"}
+                </p>
+              </div>
+            )}
+
             {/* Confirm Password */}
-            <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "14px" }}>
               <label style={labelStyle}>Confirm Password</label>
-              <div style={inputContainerStyle}>
+              <div style={{ position: "relative" }}>
                 <span style={iconStyle}>🔐</span>
                 <input
                   type={showConfirmPassword ? "text" : "password"}
@@ -830,10 +978,7 @@ function Login() {
                   }}
                   onKeyPress={handleKeyPress}
                   style={{
-                    ...inputStyle(
-                      errors.confirmPassword,
-                      selectedSignupRole.color
-                    ),
+                    ...inputStyle(errors.confirmPassword),
                     paddingRight: "42px",
                   }}
                   onFocus={(e) => {
@@ -849,76 +994,39 @@ function Login() {
                 />
                 <button
                   style={eyeButtonStyle}
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  onClick={() =>
+                    setShowConfirmPassword(!showConfirmPassword)
+                  }
                 >
                   {showConfirmPassword ? "🙈" : "👁️"}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p style={errorTextStyle}>⚠️ {errors.confirmPassword}</p>
+                <p style={errorTextStyle}>
+                  ⚠️ {errors.confirmPassword}
+                </p>
               )}
             </div>
-
-            {/* Password strength indicator */}
-            {signupData.password && (
-              <div style={{ marginBottom: "16px" }}>
-                <div style={{
-                  display: "flex",
-                  gap: "4px",
-                  marginBottom: "4px",
-                }}>
-                  {[1, 2, 3, 4].map((level) => {
-                    const strength = signupData.password.length >= level * 2 ? 1 : 0;
-                    const color =
-                      signupData.password.length < 4 ? "#ef4444" :
-                      signupData.password.length < 7 ? "#f59e0b" :
-                      signupData.password.length < 10 ? "#3b82f6" : "#10b981";
-                    return (
-                      <div
-                        key={level}
-                        style={{
-                          flex: 1,
-                          height: "4px",
-                          borderRadius: "4px",
-                          backgroundColor: strength ? color : "#e2e8f0",
-                          transition: "background-color 0.3s",
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-                <p style={{
-                  fontSize: "11px",
-                  color:
-                    signupData.password.length < 4 ? "#ef4444" :
-                    signupData.password.length < 7 ? "#f59e0b" :
-                    signupData.password.length < 10 ? "#3b82f6" : "#10b981",
-                  margin: 0,
-                }}>
-                  {signupData.password.length < 4
-                    ? "Weak password"
-                    : signupData.password.length < 7
-                    ? "Fair password"
-                    : signupData.password.length < 10
-                    ? "Good password"
-                    : "Strong password ✅"}
-                </p>
-              </div>
-            )}
 
             {/* Terms */}
             <p style={{
               fontSize: "12px",
               color: "#64748b",
-              marginBottom: "16px",
+              marginBottom: "14px",
               lineHeight: 1.5,
             }}>
               By creating an account you agree to our{" "}
-              <span style={{ color: selectedSignupRole.color, cursor: "pointer" }}>
+              <span style={{
+                color: selectedSignupRole.color,
+                cursor: "pointer",
+              }}>
                 Terms of Service
               </span>{" "}
               and{" "}
-              <span style={{ color: selectedSignupRole.color, cursor: "pointer" }}>
+              <span style={{
+                color: selectedSignupRole.color,
+                cursor: "pointer",
+              }}>
                 Privacy Policy
               </span>
             </p>
@@ -939,7 +1047,7 @@ function Login() {
                 fontSize: "15px",
                 fontWeight: "bold",
                 cursor: loading ? "not-allowed" : "pointer",
-                marginBottom: "16px",
+                marginBottom: "14px",
                 transition: "opacity 0.2s",
               }}
               onMouseEnter={(e) => {
@@ -976,6 +1084,7 @@ function Login() {
                 Sign in here
               </span>
             </p>
+
           </div>
         )}
 
@@ -984,10 +1093,10 @@ function Login() {
           fontSize: "11px",
           color: "#94a3b8",
           textAlign: "center",
-          marginTop: "24px",
+          marginTop: "20px",
           lineHeight: 1.6,
         }}>
-          MCA Final Year Project<br />
+          MCA Final Year Project — LNCT Campus Bhopal<br />
           Academic Performance Analysis and Visualization System
         </p>
 
