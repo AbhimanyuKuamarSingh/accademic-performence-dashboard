@@ -27,11 +27,11 @@ function StudentDashboard() {
   const thBg = isDark ? "#1e293b" : "#f8fafc";
 
   const performanceData = [
-    { subject: "Data Mining", score: 85, average: 72 },
-    { subject: "Neural Network", score: 72, average: 68 },
-    { subject: "Data Scince", score: 68, average: 65 },
-    { subject: "Distributed System", score: 90, average: 75 },
-    { subject: "Machine Learning", score: 95, average: 80 },
+    { subject: "Math", score: 85, average: 72 },
+    { subject: "Physics", score: 72, average: 68 },
+    { subject: "Chemistry", score: 68, average: 65 },
+    { subject: "English", score: 90, average: 75 },
+    { subject: "CS", score: 95, average: 80 },
   ];
 
   const lineData = [
@@ -42,20 +42,21 @@ function StudentDashboard() {
     { month: "May", score: 82 },
   ];
 
+  // Removed performance section from progress card
   const progressData = [
     { label: "Data Mining", value: 85, maxValue: 100 },
     { label: "Neural Network", value: 72, maxValue: 100 },
-    { label: "Data Science", value: 68, maxValue: 100 },
-    { label: "Distributed System", value: 90, maxValue: 100 },
-    { label: "Machine Learning", value: 95, maxValue: 100 },
+    { label: "Machine Learning", value: 68, maxValue: 100 },
+    { label: "Data Science", value: 90, maxValue: 100 },
+    { label: "Distributed System", value: 95, maxValue: 100 },
   ];
 
   const recentGrades = [
     { id: 101, course: "Data Mining", marks: 85, grade: "A" },
     { id: 102, course: "Neural Network", marks: 72, grade: "B" },
-    { id: 103, course: "Data Science", marks: 68, grade: "B" },
-    { id: 104, course: "Distributed System", marks: 90, grade: "A+" },
-    { id: 105, course: "Machine Learning", marks: 95, grade: "A+" },
+    { id: 103, course: "Machine Learning", marks: 68, grade: "B" },
+    { id: 104, course: "Data Science", marks: 90, grade: "A+" },
+    { id: 105, course: "Distributed System", marks: 95, grade: "A+" },
   ];
 
   const card = {
@@ -130,39 +131,45 @@ function StudentDashboard() {
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: bg }}>
+    <div style={{
+      display: "flex",
+      minHeight: "100vh",
+      backgroundColor: bg,
+    }}>
       <Sidebar />
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+      <div style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        minWidth: 0,
+      }}>
         <Navbar />
-        <div style={{ padding: "20px", flex: 1, backgroundColor: bg }}>
+        <div style={{
+          padding: "20px",
+          flex: 1,
+          backgroundColor: bg,
+        }}>
 
-          {/* 1. Heading - bounces first */}
+          {/* 1. Heading - NO print button here */}
           <BounceSection delay={0.05}>
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "20px",
-              flexWrap: "wrap",
-              gap: "10px",
+            <h2 style={{
+              fontSize: "22px",
+              fontWeight: "bold",
+              color: textPrimary,
+              margin: "0 0 20px 0",
             }}>
-              <h2 style={{ fontSize: "22px", fontWeight: "bold", color: textPrimary, margin: 0 }}>
-                Student Dashboard
-              </h2>
-              <PrintReport />
-            </div>
+              Student Dashboard
+            </h2>
           </BounceSection>
 
-          {/* 2. Welcome Banner - bounces second */}
+          {/* 2. Welcome Banner */}
           <BounceSection delay={0.15}>
             <WelcomeBanner />
           </BounceSection>
 
-          {/* 3. Stat Card 1 - bounces third */}
-          {/* 4. Stat Card 2 - bounces fourth */}
-          {/* 5. Stat Card 3 - bounces fifth */}
-          {/* 6. Stat Card 4 - bounces sixth */}
-          {/* Each card has its own BounceSection */}
+          {/* 3. Stat Cards
+              Removed: Pass % card (not meaningful)
+              Kept: Average Score, Total Subjects, Top Score */}
           <div style={{
             display: "flex",
             gap: "12px",
@@ -196,23 +203,11 @@ function StudentDashboard() {
                 icon="🏆"
               />
             </BounceSection>
-
-            <BounceSection delay={0.55} style={{ flex: "1 1 140px" }}>
-              <AnimatedStatCard
-                title="Pass %"
-                value={dummyData.stats.passPercentage}
-                suffix="%"
-                color="#8b5cf6"
-                icon="✅"
-              />
-            </BounceSection>
           </div>
 
-          {/* 7. Bar Chart - bounces seventh */}
-          {/* 8. Progress Card - bounces eighth */}
+          {/* 4. Bar Chart and Progress side by side */}
           <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-
-            <BounceSection delay={0.65} style={{ flex: "2 1 300px" }}>
+            <BounceSection delay={0.55} style={{ flex: "2 1 300px" }}>
               <div style={card}>
                 <p style={cardTitle}>Performance Overview</p>
                 <ResponsiveContainer width="100%" height={220}>
@@ -253,17 +248,16 @@ function StudentDashboard() {
               </div>
             </BounceSection>
 
-            <BounceSection delay={0.75} style={{ flex: "1 1 260px" }}>
+            <BounceSection delay={0.65} style={{ flex: "1 1 260px" }}>
               <ProgressCard
-                title="📈 Subject wise Progress"
+                title="Subject wise Progress"
                 data={progressData}
               />
             </BounceSection>
-
           </div>
 
-          {/* 9. Line Chart - bounces ninth */}
-          <BounceSection delay={0.85}>
+          {/* 5. Line Chart */}
+          <BounceSection delay={0.75}>
             <div style={card}>
               <p style={cardTitle}>Performance Trend</p>
               <ResponsiveContainer width="100%" height={200}>
@@ -299,8 +293,8 @@ function StudentDashboard() {
             </div>
           </BounceSection>
 
-          {/* 10. Results Table - bounces tenth */}
-          <BounceSection delay={0.95}>
+          {/* 6. Results Table */}
+          <BounceSection delay={0.85}>
             <div style={{ ...card, padding: 0 }}>
               <div style={{ padding: "18px 20px 10px" }}>
                 <p style={{
@@ -326,13 +320,12 @@ function StudentDashboard() {
                   </thead>
                   <tbody>
                     {dummyData.studentResults.map((row, i) => (
-                      <tr
-                        key={i}
-                        style={{
-                          backgroundColor: i % 2 === 0 ? rowEven : rowOdd,
-                        }}
-                      >
-                        <td style={{ ...td, color: textSecondary }}>{i + 1}</td>
+                      <tr key={i} style={{
+                        backgroundColor: i % 2 === 0 ? rowEven : rowOdd,
+                      }}>
+                        <td style={{ ...td, color: textSecondary }}>
+                          {i + 1}
+                        </td>
                         <td style={td}>{row.subject}</td>
                         <td style={{
                           ...td,
@@ -345,8 +338,10 @@ function StudentDashboard() {
                         <td style={td}>{getGradeBadge(row.grade)}</td>
                         <td style={td}>
                           <span style={{
-                            backgroundColor: row.marks < 40 ? "#fee2e2" : "#dcfce7",
-                            color: row.marks < 40 ? "#b91c1c" : "#15803d",
+                            backgroundColor: row.marks < 40
+                              ? "#fee2e2" : "#dcfce7",
+                            color: row.marks < 40
+                              ? "#b91c1c" : "#15803d",
                             padding: "3px 10px",
                             borderRadius: "20px",
                             fontSize: "11px",
@@ -363,8 +358,8 @@ function StudentDashboard() {
             </div>
           </BounceSection>
 
-          {/* 11. Recent Grades - bounces last */}
-          <BounceSection delay={1.05}>
+          {/* 7. Recent Grades */}
+          <BounceSection delay={0.95}>
             <div style={{ ...card, padding: 0 }}>
               <div style={{ padding: "18px 20px 10px" }}>
                 <p style={{
@@ -388,21 +383,18 @@ function StudentDashboard() {
                   </thead>
                   <tbody>
                     {recentGrades.map((row, i) => (
-                      <tr
-                        key={i}
-                        style={{
-                          backgroundColor: i % 2 === 0 ? rowEven : rowOdd,
-                        }}
-                      >
-                        <td style={{ ...td, color: textSecondary }}>{row.id}</td>
+                      <tr key={i} style={{
+                        backgroundColor: i % 2 === 0 ? rowEven : rowOdd,
+                      }}>
+                        <td style={{ ...td, color: textSecondary }}>
+                          {row.id}
+                        </td>
                         <td style={td}>{row.course}</td>
                         <td style={{
                           ...td,
                           fontWeight: "bold",
-                          color: row.marks >= 75
-                            ? "#10b981"
-                            : row.marks >= 50
-                            ? "#f59e0b"
+                          color: row.marks >= 75 ? "#10b981"
+                            : row.marks >= 50 ? "#f59e0b"
                             : "#ef4444",
                         }}>
                           {row.marks}
@@ -413,6 +405,18 @@ function StudentDashboard() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </BounceSection>
+
+          {/* 8. Print button at BOTTOM */}
+          <BounceSection delay={1.05}>
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "8px",
+              marginBottom: "10px",
+            }}>
+              <PrintReport />
             </div>
           </BounceSection>
 

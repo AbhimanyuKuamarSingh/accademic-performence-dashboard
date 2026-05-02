@@ -103,20 +103,35 @@ function AdminDashboard() {
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: bg }}>
+    <div style={{
+      display: "flex",
+      minHeight: "100vh",
+      backgroundColor: bg,
+    }}>
       <Sidebar />
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+      <div style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        minWidth: 0,
+      }}>
         <Navbar />
-        <div style={{ padding: "20px", flex: 1, backgroundColor: bg }}>
+        <div style={{
+          padding: "20px",
+          flex: 1,
+          backgroundColor: bg,
+        }}>
 
-          {/* 1. Heading */}
+          {/* 1. Heading only - no print button, no APS repeat */}
           <BounceSection delay={0.05}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
-              <h2 style={{ fontSize: "22px", fontWeight: "bold", color: textPrimary, margin: 0 }}>
-                Admin Dashboard
-              </h2>
-              <PrintReport />
-            </div>
+            <h2 style={{
+              fontSize: "22px",
+              fontWeight: "bold",
+              color: textPrimary,
+              margin: "0 0 20px 0",
+            }}>
+              Admin Dashboard
+            </h2>
           </BounceSection>
 
           {/* 2. Welcome Banner */}
@@ -124,23 +139,44 @@ function AdminDashboard() {
             <WelcomeBanner />
           </BounceSection>
 
-          {/* 3. Stat Cards - each separately */}
-          <div style={{ display: "flex", gap: "12px", marginBottom: "20px", flexWrap: "wrap" }}>
+          {/* 3. Stat Cards */}
+          <div style={{
+            display: "flex",
+            gap: "12px",
+            marginBottom: "20px",
+            flexWrap: "wrap",
+          }}>
             <BounceSection delay={0.25} style={{ flex: "1 1 140px" }}>
-              <AnimatedStatCard title="Total Users" value={350} color="#10b981" icon="👤" />
+              <AnimatedStatCard
+                title="Total Users"
+                value={350}
+                color="#10b981"
+                icon="👤"
+              />
             </BounceSection>
+
             <BounceSection delay={0.35} style={{ flex: "1 1 140px" }}>
-              <AnimatedStatCard title="Active Reports" value={8} color="#3b82f6" icon="📋" />
+              <AnimatedStatCard
+                title="Active Reports"
+                value={8}
+                color="#3b82f6"
+                icon="📋"
+              />
             </BounceSection>
+
             <BounceSection delay={0.45} style={{ flex: "1 1 140px" }}>
-              <AnimatedStatCard title="System Alerts" value={2} color="#ef4444" icon="🔔" />
+              <AnimatedStatCard
+                title="System Alerts"
+                value={2}
+                color="#f59e0b"
+                icon="🔔"
+              />
             </BounceSection>
           </div>
 
-          {/* 4. Pie Chart */}
-          {/* 5. Line Chart */}
-          {/* 6. Progress Card */}
+          {/* 4. Pie + Line Charts and Progress side by side */}
           <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+
             <div style={{ flex: "2 1 300px" }}>
               <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
 
@@ -158,10 +194,16 @@ function AdminDashboard() {
                           dataKey="value"
                         >
                           {pieData.map((entry, index) => (
-                            <Cell key={index} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                            <Cell
+                              key={index}
+                              fill={PIE_COLORS[index % PIE_COLORS.length]}
+                            />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(v) => `${v}%`} {...tooltipStyle} />
+                        <Tooltip
+                          formatter={(v) => `${v}%`}
+                          {...tooltipStyle}
+                        />
                         <Legend />
                       </PieChart>
                     </ResponsiveContainer>
@@ -173,14 +215,48 @@ function AdminDashboard() {
                     <p style={cardTitle}>Growth Over Months</p>
                     <ResponsiveContainer width="100%" height={200}>
                       <LineChart data={lineData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke={border} vertical={false} />
-                        <XAxis dataKey="month" tick={{ fontSize: 11, fill: textSecondary }} axisLine={false} tickLine={false} />
-                        <YAxis tick={{ fontSize: 11, fill: textSecondary }} axisLine={false} tickLine={false} />
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          stroke={border}
+                          vertical={false}
+                        />
+                        <XAxis
+                          dataKey="month"
+                          tick={{ fontSize: 11, fill: textSecondary }}
+                          axisLine={false}
+                          tickLine={false}
+                        />
+                        <YAxis
+                          tick={{ fontSize: 11, fill: textSecondary }}
+                          axisLine={false}
+                          tickLine={false}
+                        />
                         <Tooltip {...tooltipStyle} />
                         <Legend />
-                        <Line type="monotone" dataKey="students" stroke="#10b981" strokeWidth={2} dot={{ r: 4, fill: "#10b981", strokeWidth: 0 }} name="Students" />
-                        <Line type="monotone" dataKey="faculty" stroke="#f59e0b" strokeWidth={2} dot={{ r: 4, fill: "#f59e0b", strokeWidth: 0 }} name="Faculty" />
-                        <Line type="monotone" dataKey="admins" stroke="#ef4444" strokeWidth={2} dot={{ r: 4, fill: "#ef4444", strokeWidth: 0 }} name="Admins" />
+                        <Line
+                          type="monotone"
+                          dataKey="students"
+                          stroke="#10b981"
+                          strokeWidth={2}
+                          dot={{ r: 4, fill: "#10b981", strokeWidth: 0 }}
+                          name="Students"
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="faculty"
+                          stroke="#f59e0b"
+                          strokeWidth={2}
+                          dot={{ r: 4, fill: "#f59e0b", strokeWidth: 0 }}
+                          name="Faculty"
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="admins"
+                          stroke="#ef4444"
+                          strokeWidth={2}
+                          dot={{ r: 4, fill: "#ef4444", strokeWidth: 0 }}
+                          name="Admins"
+                        />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
@@ -190,15 +266,24 @@ function AdminDashboard() {
             </div>
 
             <BounceSection delay={0.75} style={{ flex: "1 1 260px" }}>
-              <ProgressCard title="⚙️ System Statistics" data={systemProgress} />
+              <ProgressCard
+                title="System Statistics"
+                data={systemProgress}
+              />
             </BounceSection>
+
           </div>
 
-          {/* 7. Logs Table */}
+          {/* 5. Logs Table */}
           <BounceSection delay={0.85}>
             <div style={{ ...card, padding: 0 }}>
               <div style={{ padding: "18px 20px 10px" }}>
-                <p style={{ fontSize: "14px", fontWeight: "bold", color: textPrimary, margin: 0 }}>
+                <p style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  color: textPrimary,
+                  margin: 0,
+                }}>
                   Recent Logs
                 </p>
               </div>
@@ -213,15 +298,33 @@ function AdminDashboard() {
                   </thead>
                   <tbody>
                     {logs.map((row, i) => (
-                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? rowEven : rowOdd }}>
-                        <td style={{ ...td, color: textSecondary }}>{row.id}</td>
+                      <tr key={i} style={{
+                        backgroundColor: i % 2 === 0 ? rowEven : rowOdd,
+                      }}>
+                        <td style={{ ...td, color: textSecondary }}>
+                          {row.id}
+                        </td>
                         <td style={td}>{row.activity}</td>
-                        <td style={{ ...td, color: textSecondary }}>{row.timestamp}</td>
+                        <td style={{ ...td, color: textSecondary }}>
+                          {row.timestamp}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+            </div>
+          </BounceSection>
+
+          {/* 6. Print button at BOTTOM */}
+          <BounceSection delay={0.95}>
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "8px",
+              marginBottom: "10px",
+            }}>
+              <PrintReport />
             </div>
           </BounceSection>
 

@@ -38,11 +38,11 @@ function FacultyDashboard() {
   ];
 
   const submissions = [
-    { id: 201, name: "Abhimanyu Kumar Singh", assignment: "Essay 1", status: "Graded" },
-    { id: 202, name: "Abhishek kumar", assignment: "Quiz 3", status: "Pending" },
-    { id: 203, name: "Soojal Mandal", assignment: "Lab Report", status: "Submitted" },
-    { id: 204, name: "Ritik Mehta", assignment: "Essay 2", status: "Graded" },
-    { id: 205, name: "Mukesh Tiwari", assignment: "Quiz 4", status: "Pending" },
+    { id: 201, name: "John Doe", assignment: "Essay 1", status: "Graded" },
+    { id: 202, name: "Jane Smith", assignment: "Quiz 3", status: "Pending" },
+    { id: 203, name: "Mike Johnson", assignment: "Lab Report", status: "Submitted" },
+    { id: 204, name: "Sara Wilson", assignment: "Essay 2", status: "Graded" },
+    { id: 205, name: "Tom Brown", assignment: "Quiz 4", status: "Pending" },
   ];
 
   const progressData = [
@@ -91,11 +91,12 @@ function FacultyDashboard() {
 
   const getStatusBadge = (status) => {
     const map = {
-      Graded: { bg: "#dcfce7", color: "#15803d" },
-      Pending: { bg: "#fef9c3", color: "#854d0e" },
-      Submitted: { bg: "#dbeafe", color: "#1d4ed8" },
+      // Softer pleasant colors instead of bright ones
+      Graded: { bg: "#dcfce7", color: "#166534" },
+      Pending: { bg: "#fef9c3", color: "#713f12" },
+      Submitted: { bg: "#dbeafe", color: "#1e40af" },
     };
-    const s = map[status] || { bg: "#f1f5f9", color: "#64748b" };
+    const s = map[status] || { bg: "#f1f5f9", color: "#475569" };
     return (
       <span style={{
         backgroundColor: s.bg,
@@ -121,20 +122,35 @@ function FacultyDashboard() {
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: bg }}>
+    <div style={{
+      display: "flex",
+      minHeight: "100vh",
+      backgroundColor: bg,
+    }}>
       <Sidebar />
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+      <div style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        minWidth: 0,
+      }}>
         <Navbar />
-        <div style={{ padding: "20px", flex: 1, backgroundColor: bg }}>
+        <div style={{
+          padding: "20px",
+          flex: 1,
+          backgroundColor: bg,
+        }}>
 
-          {/* 1. Heading */}
+          {/* 1. Heading only - no print button */}
           <BounceSection delay={0.05}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
-              <h2 style={{ fontSize: "22px", fontWeight: "bold", color: textPrimary, margin: 0 }}>
-                Faculty Dashboard
-              </h2>
-              <PrintReport />
-            </div>
+            <h2 style={{
+              fontSize: "22px",
+              fontWeight: "bold",
+              color: textPrimary,
+              margin: "0 0 20px 0",
+            }}>
+              Faculty Dashboard
+            </h2>
           </BounceSection>
 
           {/* 2. Welcome Banner */}
@@ -142,67 +158,150 @@ function FacultyDashboard() {
             <WelcomeBanner />
           </BounceSection>
 
-          {/* 3. Stat Cards - each one separately */}
-          <div style={{ display: "flex", gap: "12px", marginBottom: "20px", flexWrap: "wrap" }}>
+          {/* 3. Stat Cards - softer pleasant colors */}
+          <div style={{
+            display: "flex",
+            gap: "12px",
+            marginBottom: "20px",
+            flexWrap: "wrap",
+          }}>
             <BounceSection delay={0.25} style={{ flex: "1 1 140px" }}>
-              <AnimatedStatCard title="Total Students" value={120} color="#ef4444" icon="👥" />
+              <AnimatedStatCard
+                title="Total Students"
+                value={120}
+                color="#4f86c6"
+                icon="👥"
+              />
             </BounceSection>
+
             <BounceSection delay={0.35} style={{ flex: "1 1 140px" }}>
-              <AnimatedStatCard title="Class Average" value={78} suffix="%" color="#f59e0b" icon="📊" />
+              <AnimatedStatCard
+                title="Class Average"
+                value={78}
+                suffix="%"
+                color="#5ba08a"
+                icon="📊"
+              />
             </BounceSection>
+
             <BounceSection delay={0.45} style={{ flex: "1 1 140px" }}>
-              <AnimatedStatCard title="Pending Assignments" value={4} color="#8b5cf6" icon="📝" />
+              <AnimatedStatCard
+                title="Pending Assignments"
+                value={4}
+                color="#9b7ec8"
+                icon="📝"
+              />
             </BounceSection>
           </div>
 
-          {/* 4. Bar Chart */}
-          {/* 5. Progress Card */}
+          {/* 4. Bar Chart and Progress side by side */}
           <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
             <BounceSection delay={0.55} style={{ flex: "2 1 300px" }}>
               <div style={card}>
                 <p style={cardTitle}>Class Performance</p>
                 <ResponsiveContainer width="100%" height={220}>
                   <BarChart data={classData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke={border} vertical={false} />
-                    <XAxis dataKey="class" tick={{ fontSize: 11, fill: textSecondary }} axisLine={false} tickLine={false} />
-                    <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: textSecondary }} axisLine={false} tickLine={false} />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke={border}
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="class"
+                      tick={{ fontSize: 11, fill: textSecondary }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      domain={[0, 100]}
+                      tick={{ fontSize: 11, fill: textSecondary }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
                     <Tooltip {...tooltipStyle} />
                     <Legend />
-                    <Bar dataKey="score" fill="#ef4444" radius={[6, 6, 0, 0]} name="Score" />
-                    <Bar dataKey="average" fill="#fecaca" radius={[6, 6, 0, 0]} name="Average" />
+                    {/* Softer pleasant bar colors */}
+                    <Bar
+                      dataKey="score"
+                      fill="#4f86c6"
+                      radius={[6, 6, 0, 0]}
+                      name="Class Score"
+                    />
+                    <Bar
+                      dataKey="average"
+                      fill="#a8c5e8"
+                      radius={[6, 6, 0, 0]}
+                      name="Average"
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </BounceSection>
 
             <BounceSection delay={0.65} style={{ flex: "1 1 260px" }}>
-              <ProgressCard title="📈 Class wise Progress" data={progressData} />
+              <ProgressCard
+                title="Class wise Progress"
+                data={progressData}
+              />
             </BounceSection>
           </div>
 
-          {/* 6. Line Chart */}
+          {/* 5. Line Chart */}
           <BounceSection delay={0.75}>
             <div style={card}>
               <p style={cardTitle}>Student Progress</p>
               <ResponsiveContainer width="100%" height={200}>
                 <LineChart data={progressLineData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={border} vertical={false} />
-                  <XAxis dataKey="week" tick={{ fontSize: 11, fill: textSecondary }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fill: textSecondary }} axisLine={false} tickLine={false} />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke={border}
+                    vertical={false}
+                  />
+                  <XAxis
+                    dataKey="week"
+                    tick={{ fontSize: 11, fill: textSecondary }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 11, fill: textSecondary }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
                   <Tooltip {...tooltipStyle} />
                   <Legend />
-                  <Line type="monotone" dataKey="classA" stroke="#3b82f6" strokeWidth={3} dot={{ r: 5, fill: "#3b82f6", strokeWidth: 0 }} name="Class A" />
-                  <Line type="monotone" dataKey="classB" stroke="#f59e0b" strokeWidth={3} dot={{ r: 5, fill: "#f59e0b", strokeWidth: 0 }} name="Class B" />
+                  {/* Softer line colors */}
+                  <Line
+                    type="monotone"
+                    dataKey="classA"
+                    stroke="#4f86c6"
+                    strokeWidth={3}
+                    dot={{ r: 5, fill: "#4f86c6", strokeWidth: 0 }}
+                    name="Class A"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="classB"
+                    stroke="#5ba08a"
+                    strokeWidth={3}
+                    dot={{ r: 5, fill: "#5ba08a", strokeWidth: 0 }}
+                    name="Class B"
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
           </BounceSection>
 
-          {/* 7. Submissions Table */}
+          {/* 6. Submissions Table */}
           <BounceSection delay={0.85}>
             <div style={{ ...card, padding: 0 }}>
               <div style={{ padding: "18px 20px 10px" }}>
-                <p style={{ fontSize: "14px", fontWeight: "bold", color: textPrimary, margin: 0 }}>
+                <p style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  color: textPrimary,
+                  margin: 0,
+                }}>
                   Recent Submissions
                 </p>
               </div>
@@ -218,8 +317,12 @@ function FacultyDashboard() {
                   </thead>
                   <tbody>
                     {submissions.map((row, i) => (
-                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? rowEven : rowOdd }}>
-                        <td style={{ ...td, color: textSecondary }}>{row.id}</td>
+                      <tr key={i} style={{
+                        backgroundColor: i % 2 === 0 ? rowEven : rowOdd,
+                      }}>
+                        <td style={{ ...td, color: textSecondary }}>
+                          {row.id}
+                        </td>
                         <td style={td}>{row.name}</td>
                         <td style={td}>{row.assignment}</td>
                         <td style={td}>{getStatusBadge(row.status)}</td>
@@ -228,6 +331,18 @@ function FacultyDashboard() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </BounceSection>
+
+          {/* 7. Print button at BOTTOM */}
+          <BounceSection delay={0.95}>
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "8px",
+              marginBottom: "10px",
+            }}>
+              <PrintReport />
             </div>
           </BounceSection>
 

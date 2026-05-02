@@ -65,7 +65,6 @@ function Login() {
   const selectedSignupRole =
     roles.find((r) => r.id === signupData.role) || roles[0];
 
-  // ---- Validate Login ----
   const validateLogin = () => {
     const newErrors = {};
     if (!loginData.username.trim())
@@ -78,7 +77,6 @@ function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // ---- Validate Signup ----
   const validateSignup = () => {
     const newErrors = {};
     if (!signupData.fullName.trim())
@@ -103,7 +101,6 @@ function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // ---- Handle Login ----
   const handleLogin = () => {
     if (!validateLogin()) {
       showToast("Please fix the errors", "error");
@@ -123,7 +120,6 @@ function Login() {
     }, 1200);
   };
 
-  // ---- Handle Signup ----
   const handleSignup = () => {
     if (!validateSignup()) {
       showToast("Please fix the errors", "error");
@@ -154,7 +150,6 @@ function Login() {
     }
   };
 
-  // ---- Reusable styles ----
   const inputStyle = (hasError) => ({
     width: "100%",
     padding: "12px 14px 12px 42px",
@@ -226,7 +221,7 @@ function Login() {
           minHeight: "100vh",
         }}
       >
-        {/* College photo as background */}
+        {/* College photo */}
         <img
           src={collegeBg}
           alt="LNCT Campus Bhopal"
@@ -241,7 +236,7 @@ function Login() {
           }}
         />
 
-        {/* Dark gradient overlay - top light, bottom dark */}
+        {/* Dark overlay */}
         <div style={{
           position: "absolute",
           top: 0,
@@ -252,7 +247,7 @@ function Login() {
             "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.85) 100%)",
         }} />
 
-        {/* Text content over image */}
+        {/* Content over image */}
         <div style={{
           position: "relative",
           zIndex: 1,
@@ -323,7 +318,7 @@ function Login() {
             for students, faculty and administrators.
           </p>
 
-          {/* Stats row */}
+          {/* Stats */}
           <div style={{
             display: "flex",
             gap: "10px",
@@ -396,7 +391,7 @@ function Login() {
         </div>
       </div>
 
-      {/* ===== RIGHT PANEL - Login/Signup Form ===== */}
+      {/* ===== RIGHT PANEL ===== */}
       <div style={{
         width: "500px",
         display: "flex",
@@ -465,7 +460,7 @@ function Login() {
           ))}
         </div>
 
-        {/* Role Selection - shared for both tabs */}
+        {/* Role Selection */}
         <div style={{ marginBottom: "18px" }}>
           <p style={labelStyle}>Select your role</p>
           <div style={{ display: "flex", gap: "8px" }}>
@@ -498,10 +493,7 @@ function Login() {
                     transition: "all 0.2s",
                   }}
                 >
-                  <div style={{
-                    fontSize: "20px",
-                    marginBottom: "3px",
-                  }}>
+                  <div style={{ fontSize: "20px", marginBottom: "3px" }}>
                     {r.icon}
                   </div>
                   <div style={{
@@ -653,7 +645,7 @@ function Login() {
               textAlign: "center",
               fontSize: "13px",
               color: "#64748b",
-              margin: "0 0 16px",
+              margin: 0,
             }}>
               Don't have an account?{" "}
               <span
@@ -670,86 +662,6 @@ function Login() {
                 Sign up here
               </span>
             </p>
-
-            {/* Divider */}
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              marginBottom: "14px",
-            }}>
-              <div style={{
-                flex: 1,
-                height: "1px",
-                backgroundColor: "#e2e8f0",
-              }} />
-              <span style={{ fontSize: "12px", color: "#94a3b8" }}>
-                Quick Demo
-              </span>
-              <div style={{
-                flex: 1,
-                height: "1px",
-                backgroundColor: "#e2e8f0",
-              }} />
-            </div>
-
-            {/* Quick demo cards */}
-            <div style={{ display: "flex", gap: "8px" }}>
-              {roles.map((r) => (
-                <div
-                  key={r.id}
-                  onClick={() => {
-                    setLoginData({
-                      username: r.id + "1",
-                      password: r.id + "1234",
-                      role: r.id,
-                    });
-                    showToast(
-                      `Filled ${r.label} credentials`,
-                      "info"
-                    );
-                  }}
-                  style={{
-                    flex: 1,
-                    backgroundColor: r.light,
-                    border: `1px solid ${r.border}`,
-                    borderRadius: "8px",
-                    padding: "10px 6px",
-                    textAlign: "center",
-                    cursor: "pointer",
-                    transition: "transform 0.15s",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform =
-                      "translateY(-2px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform =
-                      "translateY(0)";
-                  }}
-                >
-                  <div style={{
-                    fontSize: "18px",
-                    marginBottom: "3px",
-                  }}>
-                    {r.icon}
-                  </div>
-                  <div style={{
-                    fontSize: "11px",
-                    fontWeight: "600",
-                    color: r.color,
-                  }}>
-                    {r.label}
-                  </div>
-                  <div style={{
-                    fontSize: "10px",
-                    color: "#64748b",
-                  }}>
-                    Click to fill
-                  </div>
-                </div>
-              ))}
-            </div>
 
           </div>
         )}
@@ -793,7 +705,7 @@ function Login() {
               )}
             </div>
 
-            {/* Username and Email side by side */}
+            {/* Username and Email */}
             <div style={{ display: "flex", gap: "10px" }}>
 
               <div style={{ flex: 1 }}>
@@ -912,7 +824,7 @@ function Login() {
               )}
             </div>
 
-            {/* Password strength bar */}
+            {/* Password strength */}
             {signupData.password && (
               <div style={{ marginBottom: "10px" }}>
                 <div style={{
@@ -935,8 +847,7 @@ function Login() {
                           height: "4px",
                           borderRadius: "4px",
                           backgroundColor: filled
-                            ? color
-                            : "#e2e8f0",
+                            ? color : "#e2e8f0",
                           transition: "background-color 0.3s",
                         }}
                       />

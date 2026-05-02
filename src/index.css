@@ -21,10 +21,6 @@ html, body {
   overflow-x: hidden;
 }
 
-/* =============================================
-   BOUNCE DROP ANIMATION
-   Like an apple falling from tree and bouncing
-   ============================================= */
 @keyframes bounceDrop {
   0% {
     opacity: 0;
@@ -46,13 +42,11 @@ html, body {
   }
 }
 
-/* Fade in for page body */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* Count up for stat cards */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -66,4 +60,90 @@ html, body {
 
 @media (max-width: 768px) {
   body { font-size: 14px; }
+}
+
+/* =============================================
+   PRINT STYLES
+   ============================================= */
+@media print {
+
+  /* Hide these elements when printing */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Remove all margins and padding from body */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: white !important;
+    color: black !important;
+    font-size: 12px !important;
+    /* This removes the blank first page */
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Remove the body::before that was causing blank page */
+  body::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  body::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* Page setup - no extra margins */
+  @page {
+    margin: 10mm;
+    size: A4;
+  }
+
+  /* First page should not be blank */
+  @page :first {
+    margin-top: 10mm;
+  }
+
+  /* Make main content full width */
+  div {
+    break-inside: avoid;
+  }
+
+  /* Remove all shadows */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Keep colored stat cards visible in print */
+  [style*="background-color: #3b82f6"],
+  [style*="background-color: #10b981"],
+  [style*="background-color: #f59e0b"],
+  [style*="background-color: #8b5cf6"],
+  [style*="background-color: #ef4444"],
+  [style*="background-color: #1abc9c"] {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  /* Make dark backgrounds white */
+  [style*="background-color: #0f172a"],
+  [style*="background-color: #111827"],
+  [style*="background-color: #1e293b"],
+  [style*="background-color: #f1f5f9"] {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  /* Charts should be visible */
+  .recharts-wrapper,
+  .recharts-surface {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
 }
